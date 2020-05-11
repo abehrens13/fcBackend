@@ -1,6 +1,0 @@
-version: 0.0
-os: linux
-files:
-  - source: /target/scrumtestbackend-0.0.1-SNAPSHOT.jar
-    destination: /usr/local/bin/scrumtestbackend-0.0.1-SNAPSHOT.jar
-
