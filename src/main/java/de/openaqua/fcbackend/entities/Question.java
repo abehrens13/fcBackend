@@ -3,6 +3,9 @@ package de.openaqua.fcbackend.entities;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.redis.core.RedisHash;
+
+@RedisHash("Question")
 public class Question {
 	private Map<String, Boolean> answers;
 	private String description;

@@ -1,13 +1,18 @@
 version: "3"
 services:
-  scrumtestbackend:
+  fcBackend:
     build: .
     networks:
       - backend
-    image: feb18/scrumtestbackend:latest-dev
+    image: feb18/fcBackend:latest-dev
     ports:
       - "8080:8080"
     stop_grace_period: 1m30s
+
+  redis:
+    networks:
+      - backend
+    image: redis:latest
 
 networks:
   backend:
