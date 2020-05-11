@@ -3,11 +3,8 @@ package de.openaqua.fcbackend.entities;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
-
-import de.openaqua.fcbackend.SerialGenerator;
 
 @RedisHash("Question")
 public class Question {
@@ -16,16 +13,12 @@ public class Question {
 	private String description;
 	private String questionStr;
 
-	@Autowired
-	SerialGenerator gen;
-
 	public Question(Map<String, Boolean> answers, String description, String question) {
 		super();
 		this.answers = answers;
 		this.description = description;
 		this.questionStr = question;
 	}
-
 
 	public Question() {
 		super();
@@ -65,8 +58,7 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [answers=" + answers + ", description=" + description + ", questionStr="
-				+ questionStr + "]";
+		return "Question [answers=" + answers + ", description=" + description + ", questionStr=" + questionStr + "]";
 	}
 
 }

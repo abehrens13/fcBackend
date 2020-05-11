@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package de.openaqua.fcbackend;
 
 import org.springframework.boot.SpringApplication;

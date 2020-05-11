@@ -8,7 +8,7 @@ public class NoSuchQuestionException extends RuntimeException {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6829807469013974556L;
+	private static final long serialVersionUID = -5768003837446444719L;
 
 	public NoSuchQuestionException() {
 		super();

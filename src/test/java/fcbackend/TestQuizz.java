@@ -9,9 +9,9 @@ import de.openaqua.fcbackend.entities.Quizz;
 class TestQuizz {
 
 	@Test
-	void test() {
+	void testQuizz() {
 		Quizz q = new Quizz();
-		assertEquals("", q.getDescription());
+		assertEquals(q.getDescription(), "");
 		q.setDescription("abc");
 		assertEquals("abc", q.getDescription());
 	}
