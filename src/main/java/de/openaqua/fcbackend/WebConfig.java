@@ -12,8 +12,8 @@ import com.amazonaws.xray.strategy.DynamicSegmentNamingStrategy;
 public class WebConfig {
 
 	@Bean
-	public Filter TracingFilter() {
-		return new AWSXRayServletFilter(new DynamicSegmentNamingStrategy("FcBackend", "openaqua.de"));
+	public Filter tracingFilter() {
+		return new AWSXRayServletFilter(new DynamicSegmentNamingStrategy("fcBackend", "openaqua.de"));
 	}
 
 	@Bean
@@ -28,4 +28,10 @@ public class WebConfig {
 		template.setConnectionFactory(jedisConnectionFactory());
 		return template;
 	}
+
+	@Bean
+	public SerialGenerator serialGenerator() {
+		return new SerialGenerator("TEST", 40000);
+	}
+
 }

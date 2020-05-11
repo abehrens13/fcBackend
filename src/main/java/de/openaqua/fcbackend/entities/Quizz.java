@@ -27,7 +27,7 @@ public class Quizz {
 	public Quizz() {
 		super();
 		this.description = "";
-		this.questions = new HashMap<String, Question>();
+		this.questions = new HashMap<>();
 	}
 
 	public String getDescription() {

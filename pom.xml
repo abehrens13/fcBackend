@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.openaqua</groupId>
-	<artifactId>fcBackend</artifactId>
+	<artifactId>fcbackend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>fcBackend</name>
 	<description>Flash Card Backend</description>

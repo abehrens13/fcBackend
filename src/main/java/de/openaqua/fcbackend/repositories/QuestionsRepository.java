@@ -40,7 +40,7 @@ public class QuestionsRepository {
 			m.forEach(new BiConsumer<String, Question>() {
 				@Override
 				public void accept(String s, Question q) {
-					q.setQuestion(s);
+					q.setQuestionStr(s);
 				}
 			});
 

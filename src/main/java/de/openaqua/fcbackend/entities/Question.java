@@ -3,27 +3,56 @@ package de.openaqua.fcbackend.entities;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisHash;
+
+import de.openaqua.fcbackend.SerialGenerator;
 
 @RedisHash("Question")
 public class Question {
+	private String id;
 	private Map<String, Boolean> answers;
 	private String description;
-	private String question;
+	private String questionStr;
+
+	@Autowired
+	SerialGenerator gen;
 
 	public Question(Map<String, Boolean> answers, String description, String question) {
 		super();
+		this.id = gen.getNext();
 		this.answers = answers;
 		this.description = description;
-		this.question = question;
+		this.questionStr = question;
+	}
+
+	public Question(String id, Map<String, Boolean> answers, String description, String question) {
+		super();
+		this.id = id;
+		this.answers = answers;
+		this.description = description;
+		this.questionStr = question;
 	}
 
 	public Question() {
 		super();
+		this.id = "";
 		this.description = "";
 		this.answers = new HashMap<>();
-		this.question = "";
+		this.questionStr = "";
 
+	}
+
+	public void add(Boolean value, String key) {
+		this.answers.put(key, value);
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public Map<String, Boolean> getAnswers() {
@@ -42,24 +71,18 @@ public class Question {
 		this.description = description;
 	}
 
-	public void add(Boolean value, String key) {
-		answers.putIfAbsent(key, value);
+	public String getQuestionStr() {
+		return questionStr;
 	}
 
-	public Boolean get(String key) {
-		return answers.get(key);
-	}
-
-	public String getQuestion() {
-		return question;
-	}
-
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setQuestionStr(String questionStr) {
+		this.questionStr = questionStr;
 	}
 
 	@Override
 	public String toString() {
-		return "Question [answers=" + answers + ", description=" + description + ", question=" + question + "]";
+		return "Question [id=" + id + ", answers=" + answers + ", description=" + description + ", questionStr="
+				+ questionStr + "]";
 	}
+
 }
