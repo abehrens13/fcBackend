@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ScrumtestbackendApplication {
+public class FcBackendApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ScrumtestbackendApplication.class, args);
+		SpringApplication.run(FcBackendApplication.class, args);
 	}
 
 }
