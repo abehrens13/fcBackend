@@ -4,14 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import de.openaqua.fcbackend.SerialGenerator;
 
 @RedisHash("Question")
 public class Question {
-	private String id;
 	private Map<String, Boolean> answers;
+	@Id
 	private String description;
 	private String questionStr;
 
@@ -20,23 +21,14 @@ public class Question {
 
 	public Question(Map<String, Boolean> answers, String description, String question) {
 		super();
-		this.id = gen.getNext();
 		this.answers = answers;
 		this.description = description;
 		this.questionStr = question;
 	}
 
-	public Question(String id, Map<String, Boolean> answers, String description, String question) {
-		super();
-		this.id = id;
-		this.answers = answers;
-		this.description = description;
-		this.questionStr = question;
-	}
 
 	public Question() {
 		super();
-		this.id = "";
 		this.description = "";
 		this.answers = new HashMap<>();
 		this.questionStr = "";
@@ -45,14 +37,6 @@ public class Question {
 
 	public void add(Boolean value, String key) {
 		this.answers.put(key, value);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public Map<String, Boolean> getAnswers() {
@@ -81,7 +65,7 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", answers=" + answers + ", description=" + description + ", questionStr="
+		return "Question [answers=" + answers + ", description=" + description + ", questionStr="
 				+ questionStr + "]";
 	}
 
