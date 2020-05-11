@@ -1,0 +1,16 @@
+version: "3"
+services:
+  scrumtestbackend:
+    build: .
+    networks:
+      - backend
+    image: feb18/scrumtestbackend:latest-dev
+    ports:
+      - "8080:8080"
+    stop_grace_period: 1m30s
+
+networks:
+  backend:
+
+volumes:
+  db-data:

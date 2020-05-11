@@ -1,0 +1,11 @@
+description: AWS Developer Questions
+questions:
+  Who are members of a Scrum team?:
+    answers:
+      Product Owner: true
+      Scrum Master: true
+      Develment Team: true
+      Stakeholder: false
+      Project Manager: false
+      Team Leader: false
+    description: Only Product Master, Scrum Master and Development Team are members of the Scrum Team
