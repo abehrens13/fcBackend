@@ -1,0 +1,9 @@
+language: java
+sudo: required
+services:
+- docker
+after_success:
+- if [ "$TRAVIS_BRANCH" == "master" ]; then docker build -t "$DOCKER_ID"/fcBackend:latest . ; fi
+- if [ "$TRAVIS_BRANCH" != "master" ]; then docker build -t "$DOCKER_ID"/fcBackend:latest-dev . ; fi
+- if [ "$TRAVIS_BRANCH" == "master" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin; docker push "$DOCKER_ID"/fcBackend:latest; fi
+- if [ "$TRAVIS_BRANCH" != "master" ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin; docker push "$DOCKER_ID"/fcBackend:latest-dev; fi
