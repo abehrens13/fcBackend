@@ -4,7 +4,7 @@ services:
     build: .
     networks:
       - backend
-    image: feb18/fcBackend:latest-dev
+    image: feb18/fcbackend:dev-0.0.1
     ports:
       - "8080:8080"
     stop_grace_period: 1m30s
