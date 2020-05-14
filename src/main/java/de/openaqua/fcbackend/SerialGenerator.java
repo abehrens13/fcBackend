@@ -3,7 +3,6 @@ package de.openaqua.fcbackend;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-x
 public class SerialGenerator {
 	private static final Log LOG = LogFactory.getLog(SerialGenerator.class);
 	private int number;
