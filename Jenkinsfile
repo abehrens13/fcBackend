@@ -18,7 +18,7 @@ pipeline {
 
         stage ('Build') {
             steps {
-                mvn clean compile 
+                echo 'This is a minimal pipeline.' 
             }
         }
         
