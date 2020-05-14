@@ -2,7 +2,7 @@ pipeline {
     agent any 
     tools { 
         maven '/usr/local/bin/mvn' 
-        jdk '8' 
+        jdk 'JDK8' 
     }
     stages {
         stage('Stage Hello World') {
