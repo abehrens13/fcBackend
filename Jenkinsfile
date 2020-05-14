@@ -1,30 +1,30 @@
 pipeline {
-    agent any 
-    tools { 
-        maven '/usr/local/bin/mvn' 
-        jdk 'JDK8' 
+  agent any
+  stages {
+    stage('Stage Hello World') {
+      steps {
+        echo 'Hello World!'
+      }
     }
-    stages {
-        stage('Stage Hello World') {
-            steps {
-                echo 'Hello world!' 
-            }
-        }
-        
-        stage ('Initialize') {
-            steps {
-                sh '''
+
+    stage('Initialize') {
+      steps {
+        sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
-                ''' 
-            }
-        }
-
-        stage ('Build') {
-            steps {
-                echo 'This is a minimal pipeline.' 
-            }
-        }
-        
+                '''
+      }
     }
+
+    stage('Build') {
+      steps {
+        echo 'This is a minimal pipeline.'
+      }
+    }
+
+  }
+  tools {
+    maven '/usr/local/bin/mvn'
+    jdk 'JDK8'
+  }
 }
