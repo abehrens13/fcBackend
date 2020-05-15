@@ -27,6 +27,38 @@ public class MonitorController {
 	@Autowired
 	private SerialGenerator serialGenerator;
 
+	private MonitorStatus checkRedis() {
+		MonitorStatus result = MonitorStatus.UNKNOWN;
+
+		// Store and retrieve some data from redis to test redis
+		try {
+			RedisSession session = new RedisSession(serialGenerator.getNext());
+
+			Optional<RedisSession> o = redis.findById(session.getId());
+			if (o.isPresent()) {
+				LOG.error("Redis has a session object with id {} which should not exists", session.getId());
+				return MonitorStatus.FAILURE;
+			}
+			session = redis.save(session);
+			Optional<RedisSession> o2 = redis.findById(session.getId());
+			if (!o2.isPresent()) {
+				LOG.error("Redis has no session object with id {} which should exists", session.getId());
+				return MonitorStatus.FAILURE;
+			}
+			redis.delete(session);
+
+			// some stuff for debug
+			Iterable<RedisSession> oldSessions = redis.findAll();
+			oldSessions.forEach(s -> LOG.debug("old but known SessionIds are: {}", s.getId()));
+
+		} catch (org.springframework.data.redis.RedisConnectionFailureException e) {
+			LOG.error("Redis Exception: {}", e.getLocalizedMessage());
+			return MonitorStatus.FAILURE;
+		}
+
+		return MonitorStatus.OK;
+	}
+
 	@GetMapping()
 	public MonitorResponse index() {
 		LOG.info("GET /");
@@ -35,31 +67,7 @@ public class MonitorController {
 		MonitorResponse response = new MonitorResponse();
 		response.setStatusDatabase(MonitorStatus.UNKNOWN);
 		response.setStatusSystem(MonitorStatus.OK);
-		response.setStatusRedis(MonitorStatus.UNKNOWN);
-
-		// Store and retrieve some data from redis to test redis
-		RedisSession session = new RedisSession(serialGenerator.getNext());
-
-		Optional<RedisSession> o = redis.findById(session.getId());
-		if (o.isPresent()) {
-			LOG.error("Redis has a session object with id {} which should not exists", session.getId());
-			response.setStatusRedis(MonitorStatus.FAILURE);
-			return response;
-		}
-		session = redis.save(session);
-		Optional<RedisSession> o2 = redis.findById(session.getId());
-		if (!o2.isPresent()) {
-			LOG.error("Redis has no session object with id {} which should exists", session.getId());
-			response.setStatusRedis(MonitorStatus.FAILURE);
-			return response;
-		}
-		redis.delete(session);
-
-		response.setStatusRedis(MonitorStatus.OK);
-
-		// some stuff for debug
-		Iterable<RedisSession> oldSessions = redis.findAll();
-		oldSessions.forEach(s -> LOG.debug("old but known SessionIds are: {}", s.getId()));
+		response.setStatusRedis(checkRedis());
 
 		// return
 		return response;
