@@ -1,12 +1,6 @@
 pipeline {
   agent any
   stages {
-    stage('Stage Hello World') {
-      steps {
-        echo 'Hello World!'
-      }
-    }
-
     stage('Initialize') {
       steps {
         sh '''
@@ -18,7 +12,12 @@ pipeline {
 
     stage('Build') {
       steps {
-        sh 'mvn -Dmaven.test.failure.ignore=true install' 
+        sh 'mvn -DskipTests clean package' 
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'mvn test' 
       }
       post {
         success {
@@ -26,9 +25,15 @@ pipeline {
         }
       }    
     }
+    stage('Create Docker Images') {
+      steps {
+        sh '/usr/bin/python3  jenkins/dockerize.py' 
+      }
+    }
   }
   tools {
     maven '/usr/local/bin/mvn'
     jdk 'JDK8'
+    python3 '/usr/bin/python3'
   }
 }
