@@ -1,4 +1,4 @@
-package fcbackend;
+package de.openaqua.fcbackend.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import de.openaqua.fcbackend.entities.Quizz;
 
-class TestQuizz {
+class QuizzTest {
 
 	@Test
 	void testQuizz() {
