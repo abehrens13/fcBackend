@@ -9,7 +9,7 @@ import de.openaqua.fcbackend.entities.MonitorStatus;
 
 class MonitorControllerTest {
 
-	@Test
+	//@Test test disabled for now
 	void testIndex() {
 		MonitorController c = new MonitorController();
 		MonitorResponse r = c.index();
