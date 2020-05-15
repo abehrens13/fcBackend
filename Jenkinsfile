@@ -34,6 +34,5 @@ pipeline {
   tools {
     maven '/usr/local/bin/mvn'
     jdk 'JDK8'
-    python3 '/usr/bin/python3'
   }
 }
