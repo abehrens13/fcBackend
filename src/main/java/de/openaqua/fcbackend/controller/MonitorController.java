@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.openaqua.fcbackend.entities.MonitorResponse;
+import de.openaqua.fcbackend.entities.MonitorStatus;
 
 @RestController
 @RequestMapping(path = "/monitor")
@@ -16,6 +17,10 @@ public class MonitorController {
 	@GetMapping()
 	public MonitorResponse index() {
 		log.info("GET /");
-		return new MonitorResponse();
+		MonitorResponse response = new MonitorResponse();
+		response.setStatusDatabase(MonitorStatus.UNKNOWN);
+		response.setStatusSystem(MonitorStatus.OK);
+		response.setStatusRedis(MonitorStatus.OK);
+		return response;
 	}
 }

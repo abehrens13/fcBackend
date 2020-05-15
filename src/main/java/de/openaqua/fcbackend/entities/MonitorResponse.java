@@ -15,6 +15,7 @@ public class MonitorResponse {
 	private InetAddress inetAddress;
 	private MonitorStatus statusSystem;
 	private MonitorStatus statusDatabase;
+	private MonitorStatus statusRedis;
 
 	public MonitorResponse() {
 		super();
@@ -28,6 +29,7 @@ public class MonitorResponse {
 		}
 		statusSystem = MonitorStatus.OK;
 		statusDatabase = MonitorStatus.UNKNOWN;
+		statusRedis = MonitorStatus.UNKNOWN;
 	}
 
 	public OffsetDateTime getCurrentTime() {
@@ -70,10 +72,19 @@ public class MonitorResponse {
 		this.statusDatabase = statusDatabase;
 	}
 
+	public MonitorStatus getStatusRedis() {
+		return statusRedis;
+	}
+
+	public void setStatusRedis(MonitorStatus statusRedis) {
+		this.statusRedis = statusRedis;
+	}
+
 	@Override
 	public String toString() {
-		return "MonitorResponse [currentTime=" + currentTime + ", hostname=" + hostname + ", inetAddress=" + inetAddress
-				+ ", statusSystem=" + statusSystem + ", statusDatabase=" + statusDatabase + "]";
+		return "MonitorResponse [log=" + log + ", currentTime=" + currentTime + ", hostname=" + hostname
+				+ ", inetAddress=" + inetAddress + ", statusSystem=" + statusSystem + ", statusDatabase="
+				+ statusDatabase + ", statusRedis=" + statusRedis + "]";
 	}
 
 }
