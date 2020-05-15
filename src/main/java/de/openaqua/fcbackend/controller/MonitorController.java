@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +29,6 @@ public class MonitorController {
 	private SerialGenerator serialGenerator;
 
 	private MonitorStatus checkRedis() {
-		MonitorStatus result = MonitorStatus.UNKNOWN;
-
 		// Store and retrieve some data from redis to test redis
 		try {
 			RedisSession session = new RedisSession(serialGenerator.getNext());
@@ -37,13 +36,13 @@ public class MonitorController {
 			Optional<RedisSession> o = redis.findById(session.getId());
 			if (o.isPresent()) {
 				LOG.error("Redis has a session object with id {} which should not exists", session.getId());
-				return MonitorStatus.FAILURE;
+				throw new RedisConnectionFailureException("Redis has a session object with which should not exists");
 			}
 			session = redis.save(session);
 			Optional<RedisSession> o2 = redis.findById(session.getId());
 			if (!o2.isPresent()) {
 				LOG.error("Redis has no session object with id {} which should exists", session.getId());
-				return MonitorStatus.FAILURE;
+				throw new RedisConnectionFailureException("Redis has no session object with which should exists");
 			}
 			redis.delete(session);
 
@@ -51,7 +50,7 @@ public class MonitorController {
 			Iterable<RedisSession> oldSessions = redis.findAll();
 			oldSessions.forEach(s -> LOG.debug("old but known SessionIds are: {}", s.getId()));
 
-		} catch (org.springframework.data.redis.RedisConnectionFailureException e) {
+		} catch (RedisConnectionFailureException e) {
 			LOG.error("Redis Exception: {}", e.getLocalizedMessage());
 			return MonitorStatus.FAILURE;
 		}
