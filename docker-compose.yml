@@ -1,21 +1,26 @@
-version: "3"
+version: '3'
 services:
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+    - 6379:6379
+    volumes:
+    - redis:/data
+    networks:
+    - backend
   fcBackend:
     build: .
     networks:
-      - backend
+    - backend
     image: feb18/fcbackend:dev-0.0.1
     ports:
-      - "8080:8080"
+    - 8000:8000
     stop_grace_period: 1m30s
-
-  redis:
-    networks:
-      - backend
-    image: redis:latest
-
-networks:
-  backend:
-
+    restart: 'no'
+    depends_on:
+      - "redis"
 volumes:
-  db-data:
+  redis: null
+networks:
+  backend: null

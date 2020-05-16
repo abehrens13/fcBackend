@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 root = ET.parse('pom.xml').getroot()
 version = root.find('{http://maven.apache.org/POM/4.0.0}version').text
 artifactId = root.find('{http://maven.apache.org/POM/4.0.0}artifactId').text
+artifactId = "dev-0.0.1"
 
 # exec docker
 dockerId = 'feb18'
