@@ -25,6 +25,10 @@ pipeline {
         }
       }    
     }
+    /**
+    https://tutorials.releaseworksacademy.com/learn/building-your-first-docker-image-with-jenkins-2-guide-for-developers
+    https://blog.csuttles.io/using-jenkins-and-aws-to-build-and-push-docker-images/
+    */
     
      stage('Build image') {
         /* This builds the actual image; synonymous to
