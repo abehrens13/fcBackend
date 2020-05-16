@@ -18,8 +18,10 @@ services:
     - 8000:8000
     stop_grace_period: 1m30s
     restart: 'no'
+    links:
+    - redis
     depends_on:
-      - "redis"
+    - redis
 volumes:
   redis: null
 networks:
