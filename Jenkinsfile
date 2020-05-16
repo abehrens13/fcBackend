@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent { dockerfile true }
   stages {
     stage('Initialize') {
       steps {
@@ -24,11 +24,6 @@ pipeline {
           junit 'target/surefire-reports/**/*.xml' 
         }
       }    
-    }
-    stage('Create Docker Images') {
-      steps {
-        sh '/usr/bin/python3  jenkins/dockerize.py' 
-      }
     }
   }
   tools {
