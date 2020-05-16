@@ -31,26 +31,35 @@ public class MonitorController {
 	private MonitorStatus checkRedis() {
 		// Store and retrieve some data from redis to test redis
 		try {
-			RedisSession session = new RedisSession(serialGenerator.getNext());
+			if (serialGenerator == null) {
+				throw new ServiceNotAvailable("serialGenerator is null");
+			}
+			String serial = serialGenerator.getNext();
+			if (serial == null) {
+				serial = "null-001";
+			}
+			RedisSession session = new RedisSession(serial);
 
 			Optional<RedisSession> o = redis.findById(session.getId());
 			if (o.isPresent()) {
-				LOG.error("Redis has a session object with id {} which should not exists", session.getId());
 				throw new RedisConnectionFailureException("Redis has a session object with which should not exists");
 			}
 			session = redis.save(session);
 			Optional<RedisSession> o2 = redis.findById(session.getId());
 			if (!o2.isPresent()) {
-				LOG.error("Redis has no session object with id {} which should exists", session.getId());
 				throw new RedisConnectionFailureException("Redis has no session object with which should exists");
 			}
 			redis.delete(session);
 
 			// some stuff for debug
-			Iterable<RedisSession> oldSessions = redis.findAll();
-			oldSessions.forEach(s -> LOG.debug("old but known SessionIds are: {}", s.getId()));
+			// Iterable<RedisSession> oldSessions = redis.findAll();
+			// oldSessions.forEach(s -> LOG.debug("old but known SessionIds are: {}",
+			// s.getId()));
 
 		} catch (RedisConnectionFailureException e) {
+			LOG.error("Redis Exception: {}", e.getLocalizedMessage());
+			return MonitorStatus.FAILURE;
+		} catch (ServiceNotAvailable e) {
 			LOG.error("Redis Exception: {}", e.getLocalizedMessage());
 			return MonitorStatus.FAILURE;
 		}

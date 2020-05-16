@@ -2,16 +2,21 @@ package de.openaqua.fcbackend;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
+@Component
+@ComponentScan("de.openaqua.fcbackend")
 public class SerialGenerator {
 	private static final Log LOG = LogFactory.getLog(SerialGenerator.class);
 	private int number;
 	private String prefix;
+	public static final int DEFAULT_STARTVALUE = 100_000;
 
 	public SerialGenerator() {
 		super();
-		this.prefix = "";
-		this.number = 0;
+		this.prefix = "DEF";
+		this.number = DEFAULT_STARTVALUE;
 	}
 
 	public SerialGenerator(String prefix, int number) {
@@ -28,7 +33,8 @@ public class SerialGenerator {
 	}
 
 	public String getNext() {
-		String result = prefix + ++number;
+		++number;
+		String result = prefix + number;
 		LOG.info("Produced Serial " + result);
 		return result;
 	}
