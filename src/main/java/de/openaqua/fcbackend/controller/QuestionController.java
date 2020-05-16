@@ -37,6 +37,7 @@ public class QuestionController {
     if (!out.isPresent()) {
       throw new NoSuchQuestionException("no resource found for question" + q);
     }
+    LOG.debug("result: {}", out.get());
     return ResponseEntity.ok(out.get());
   }
 
@@ -47,6 +48,7 @@ public class QuestionController {
     if (!out.isPresent()) {
       throw new NoSuchQuestionException("no resource found");
     }
+    LOG.debug("result: {}", out.get());
     return ResponseEntity.ok(out.get());
   }
 

@@ -24,11 +24,12 @@ public class QuestionsRepository {
   private static String filename = "questions2.yaml";
 
   public QuestionsRepository() {
-    LOG.debug("QuestionsRepository()");
+    LOG.debug("setup QuestionsRepository()");
     quizz = null;
   }
 
   public void loadDefaultQuestionFile() {
+    LOG.info("loadDefaultQuestionFile");
     ObjectMapper om = new ObjectMapper(new YAMLFactory());
     try {
       File file = ResourceUtils.getFile("classpath:" + filename);
@@ -49,7 +50,7 @@ public class QuestionsRepository {
   }
 
   public void saveNew(String filename, Quizz quizz) {
-    LOG.debug("saveAll({})", filename);
+    LOG.debug("saveNew({})", filename);
     ObjectMapper om = new ObjectMapper(new YAMLFactory());
     try {
       om.writeValue(new File(filename), quizz);
@@ -87,7 +88,7 @@ public class QuestionsRepository {
   }
 
   public Optional<Question> findByQuestions(String question) {
-    LOG.debug("findByQuestions()");
+    LOG.debug("findByQuestions({})", question);
     if (quizz == null) {
       loadDefaultQuestionFile();
     }
@@ -102,10 +103,10 @@ public class QuestionsRepository {
   }
 
   private int getRandomQuestionId() {
+    LOG.debug("getRandomQuestionId()");
     int min = 0;
     int max = getAmountOfQuestions() - 1;
     return ThreadLocalRandom.current().nextInt(min, max + 1);
-
   }
 
   public Optional<Question> findRandomQuestion() {
