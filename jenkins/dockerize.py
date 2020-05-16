@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 root = ET.parse('pom.xml').getroot()
 version = root.find('{http://maven.apache.org/POM/4.0.0}version').text
 artifactId = root.find('{http://maven.apache.org/POM/4.0.0}artifactId').text
-#artifactId = "dev-0.0.1"
+# artifactId = "dev-0.0.1"
 
 # exec docker
 dockerId = 'feb18'
@@ -21,13 +21,9 @@ dockerPushCommand = dockerBin + ' ' + dockerPush + ' ' + dockerLabel
 
 # build docker image
 print('execute: ' + dockerBuildCommand)
-dockerBuildOutput = ''
-dockerBuildOutput = os.popen(dockerBuildCommand).read()
-print ("Made docker image " + dockerBuildOutput)
+os.system(dockerBuildCommand)
 
 # push to docker hub
 print('execute: ' + dockerPushCommand)
-dockerPushOutput = ""
-dockerPushOutput = os.popen(dockerPushCommand).read()
-print ("Pushed docker image " + dockerPushOutput)
+os.system(dockerPushCommand)
 
