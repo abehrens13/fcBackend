@@ -18,14 +18,15 @@ dockerPush = 'push'
 dockerBuildCommand = dockerBin + ' ' + dockerBuild + ' -t ' + dockerLabel + ' -f ' + dockerFile + ' . '
 dockerPushCommand = dockerBin + ' ' + dockerPush + ' ' + dockerLabel
 
-#build docker image
+# build docker image
 print('execute: ' + dockerBuildCommand)
 dockerBuildOutput = ''
 dockerBuildOutput = os.popen(dockerBuildCommand).read()
 print ("Made docker image " + dockerBuildOutput)
 
-#push to docker hub
+# push to docker hub
 print('execute: ' + dockerPushCommand)
+dockerPushOutput = ""
 dockerPushOutput = os.popen(dockerPushCommand).read()
 print ("Pushed docker image " + dockerPushOutput)
 
