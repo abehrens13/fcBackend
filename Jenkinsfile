@@ -50,7 +50,6 @@ pipeline {
       		}
 		}
 
-
 		/**=======================*/
 		//https://igorski.co/sonarqube-scans-using-jenkins-declarative-pipelines/
 		stage('SonarCloud') {
