@@ -47,8 +47,10 @@ pipeline {
                 echo 'Starting to build docker image'
 
                 script {
-                    def customImage = docker.build("${env.IMAGE}:${env.VERSION}")
-                    customImage.push()
+                	docker.withRegistry('https://hub.docker.com/', 'dockerhub-credential') {
+                    	def customImage = docker.build("${env.IMAGE}:${env.VERSION}")
+                    	customImage.push()
+                    }
                 }
             }
         }
