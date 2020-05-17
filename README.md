@@ -9,8 +9,8 @@ Sample Projekt.
 
 ## docker-compose build
  - docker-compose up --build
- - docker-compose up -d 
- - docker-compose down 
+ - docker-compose up -d
+ - docker-compose down
 
 
 ## maven build
@@ -19,5 +19,12 @@ mvn docker:build
 mvn docker:start
 mvn docker:stop
 
+
+## Install Sonarqube
+
+ - docker-compose -f docker-compose-dev.yml up
+ - create a database "sonar" on postgres with user postgres
+ - docker-compose -f docker-compose-dev.yml down
+ - docker-compose -f docker-compose-dev.yml up
 
 ## TODO

@@ -43,6 +43,22 @@ pipeline {
       		}    
 		}
 		
+
+		/**=======================*/
+		stage('Sonarqube') {
+    		environment {
+        		scannerHome = tool 'docker-sonar'
+    		}
+    		steps {
+        		withSonarQubeEnv('sonarqube') {
+            		sh "${scannerHome}/bin/sonar-scanner"
+        		}
+        		timeout(time: 10, unit: 'MINUTES') {
+            		waitForQualityGate abortPipeline: true
+        		}
+    		}
+		}
+		
 		/**=======================*/
 		stage('Build Docker Image - All Branches') {
 			when { branch pattern: "dev-.*", comparator: "REGEXP"}
