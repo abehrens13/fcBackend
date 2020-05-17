@@ -46,25 +46,40 @@ pipeline {
         }
       }    
     }
-    /**
-    https://tutorials.releaseworksacademy.com/learn/building-your-first-docker-image-with-jenkins-2-guide-for-developers
-    https://blog.csuttles.io/using-jenkins-and-aws-to-build-and-push-docker-images/
-    */
-    
-	stage('Build image') {
-            steps {
-                echo 'Starting to build docker image'
 
-                script {
-                	docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credential') {
-                    	def customImage = docker.build("${env.IMAGE}:${env.VERSION}")
-                    	customImage.push()
-                    }
-                }
-            }
-        }
-    
-
+	stage('Build and Publish Image master') {
+      when {
+        branch 'master'  //only run these steps on the master branch
+      }
+      steps {
+        /*
+         * Multiline strings can be used for larger scripts. It is also possible to put scripts in your shared library
+         * and load them with 'libaryResource'
+         */
+        sh """
+          docker build -t ${IMAGE} .
+          docker tag ${IMAGE} ${IMAGE}:${VERSION}
+          docker push ${IMAGE}:${VERSION}
+        """
+      }
+    }    
+	stage('Build and Publish Image dev') {
+      when {
+        branch 'dev-0.0.1'  //only run these steps on the master branch
+      }
+      steps {
+        /*
+         * Multiline strings can be used for larger scripts. It is also possible to put scripts in your shared library
+         * and load them with 'libaryResource'
+         "${env.IMAGE}:${env.VERSION}"
+         */
+        sh """
+          docker build -t ${env.IMAGE} .
+          docker tag ${env.IMAGE} ${env.IMAGE}:${env.VERSION}
+          docker push ${env.IMAGE}:${env.VERSION}
+        """
+      }    
+	}
     
   }
   tools {
