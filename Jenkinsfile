@@ -12,9 +12,11 @@ pipeline {
   
 	stages {
 		stage('Show Tool Versions'){
-			sh 'mvn --version'
-			sh 'docker --version'
-			sh 'java -version'			    
+			steps{
+				sh 'mvn --version'
+				sh 'docker --version'
+				sh 'java -version'			    
+			}
 		}
 	}
   
