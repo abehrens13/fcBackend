@@ -45,6 +45,7 @@ pipeline {
 		
 
 		/**=======================*/
+		//https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-jenkins/
 		stage('Sonarqube') {
     		environment {
         		scannerHome = tool 'docker-sonar'
