@@ -10,17 +10,13 @@ pipeline {
     	VERSION = readMavenPom().getVersion()
   	}
   
-	pipeline {
-		stages {
-			stage('Show Tool Versions'){
-				sh 'mvn --version'
-				sh 'docker --version'
-				sh 'java -version'			    
-			}
+	stages {
+		stage('Show Tool Versions'){
+			sh 'mvn --version'
+			sh 'docker --version'
+			sh 'java -version'			    
 		}
 	}
-
-  
   
   	tools {
     	maven '/usr/local/bin/mvn'
