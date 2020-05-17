@@ -13,6 +13,15 @@ pipeline {
   }
   
   stages {
+    stage('Test Tools') {
+      steps {
+        sh '''
+                  echo "PATH = ${PATH}"
+                  echo "M2_HOME = ${M2_HOME}"
+                '''
+      }
+    }
+
     stage('Initialize') {
       steps {
         sh '''
@@ -47,7 +56,7 @@ pipeline {
                 echo 'Starting to build docker image'
 
                 script {
-                	docker.withRegistry('https://hub.docker.com/', 'dockerhub-credential') {
+                	docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credential') {
                     	def customImage = docker.build("${env.IMAGE}:${env.VERSION}")
                     	customImage.push()
                     }
