@@ -42,6 +42,33 @@ pipeline {
         		}
       		}    
 		}
+		
+		/**=======================*/
+		stage('Build Docker Image - All Branches') {
+      		steps {
+        		sh """
+          			docker login
+          			docker build -t ${env.DOCKERID}/${env.IMAGE}:${env.VERSION} .
+          			docker push ${env.DOCKERID}/${env.IMAGE}:${env.VERSION}
+        		"""
+      		}    
+		}		
+		
+		/**=======================*/
+		stage('Build Docker Image - Master Branch') {
+      		when {
+        		branch 'master'  //only run these steps on the master branch
+      		}
+      		steps {
+        		sh """
+          			docker login
+          			docker build -t ${env.DOCKERID}/${env.IMAGE}:${env.VERSION} .
+          			docker push ${env.DOCKERID}/${env.IMAGE}:${env.VERSION}
+          			docker push ${env.DOCKERID}/${env.IMAGE}:latest
+        		"""
+      		}    
+		}		
+		
 	}
   
   	tools {
