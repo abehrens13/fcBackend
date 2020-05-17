@@ -6,8 +6,8 @@ pipeline {
 
 	environment {
     	DOCKERID = "feb18"
-    	IMAGE = readMavenPom().getArtifactId()
-    	VERSION = readMavenPom().getVersion()
+    	IMAGE = 'fcbackend'
+    	VERSION = '0.0.1-SNAPSHOT'
   	}
   
 	stages {
