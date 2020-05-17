@@ -10,35 +10,31 @@ import org.junit.jupiter.api.Test;
 
 class RedisSessionTest {
 
-	@Test
-	void testSetGetId() {
-		RedisSession s = new RedisSession();
-		String abc = "abc";
-		assertFalse(s.getId().equals(abc));
-		s.setId(abc);
-		assertTrue(s.getId().equals(abc));
-	}
+  @Test
+  void testSetGetId() {
+    RedisSession s = new RedisSession();
+    String abc = "abc";
+    assertFalse(s.getId().equals(abc));
+    s.setId(abc);
+    assertTrue(s.getId().equals(abc));
+  }
 
-	@Test
-	void testSetGetCreationTime() {
-		RedisSession s = new RedisSession();
-		try {
-			TimeUnit.SECONDS.sleep(1);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
-		assertFalse(s.getCreationTime().equals(now));
-		s.setCreationTime(now);
-		assertTrue(s.getCreationTime().equals(now));
+  @Test
+  void testSetGetCreationTime() throws InterruptedException {
+    RedisSession s = new RedisSession();
+    TimeUnit.SECONDS.sleep(1);
+    OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+    assertFalse(s.getCreationTime().equals(now));
+    s.setCreationTime(now);
+    assertTrue(s.getCreationTime().equals(now));
 
-	}
+  }
 
-	@Test
-	void testToString() {
-		RedisSession s = new RedisSession();
-		assertFalse(s.toString() == null);
-		assertFalse(s.toString().isEmpty());
-	}
+  @Test
+  void testToString() {
+    RedisSession s = new RedisSession();
+    assertFalse(s.toString() == null);
+    assertFalse(s.toString().isEmpty());
+  }
 
 }

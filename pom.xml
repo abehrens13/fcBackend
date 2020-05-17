@@ -12,7 +12,7 @@
 	<groupId>de.openaqua</groupId>
 	<artifactId>fcbackend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>fcBackend</name>
+	<name>fcbackend</name>
 	<description>Flash Card Backend</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
