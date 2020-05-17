@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    def customImage 
     options {
         timeout(time: 15, unit: 'MINUTES') 
     }
@@ -37,25 +38,24 @@ pipeline {
         }
       }    
     }
-    /**
-    https://tutorials.releaseworksacademy.com/learn/building-your-first-docker-image-with-jenkins-2-guide-for-developers
-    https://blog.csuttles.io/using-jenkins-and-aws-to-build-and-push-docker-images/
-    */
-    
 	stage('Build image') {
             steps {
                 echo 'Starting to build docker image'
+				customImage = docker.build("${env.IMAGE}:${env.VERSION}")
+                }
+    }
+    
+	stage('Push image') {
+            steps {
+                echo 'Push docker image'
 
-                script {
+                steps {
                 	docker.withRegistry('https://hub.docker.com/', 'dockerhub-credential') {
-                    	def customImage = docker.build("${env.IMAGE}:${env.VERSION}")
                     	customImage.push()
                     }
-                }
             }
         }
-    
-
+	}
     
   }
   tools {
