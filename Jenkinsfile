@@ -74,6 +74,7 @@ pipeline {
          "${env.IMAGE}:${env.VERSION}"
          */
         sh """
+          docker login
           docker build -t ${env.IMAGE} .
           docker tag ${env.IMAGE} ${env.IMAGE}:${env.VERSION}
           docker push ${env.IMAGE}:${env.VERSION}
