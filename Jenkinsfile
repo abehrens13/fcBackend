@@ -8,6 +8,7 @@ pipeline {
     //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
     //IMAGE = readMavenPom().getArtifactId()
     //VERSION = readMavenPom().getVersion()
+    DOCKERID = "feb18"
     IMAGE = "fcbackend"
     VERSION = "0.0.1-SNAPSHOT"
   }
@@ -75,9 +76,8 @@ pipeline {
          */
         sh """
           docker login
-          docker build -t ${env.IMAGE} .
-          docker tag ${env.IMAGE} ${env.IMAGE}:${env.VERSION}
-          docker push ${env.IMAGE}:${env.VERSION}
+          docker build -t ${env.DOCKERID}/${env.IMAGE}:${env.VERSION} .
+          docker push ${env.DOCKERID}/${env.IMAGE}:${env.VERSION}
         """
       }    
 	}
