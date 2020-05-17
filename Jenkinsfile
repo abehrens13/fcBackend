@@ -45,6 +45,7 @@ pipeline {
 		
 		/**=======================*/
 		stage('Build Docker Image - All Branches') {
+			when { branch pattern: "dev-.*", comparator: "REGEXP"}
       		steps {
         		sh """
           			docker login
