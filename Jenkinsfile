@@ -53,7 +53,7 @@ pipeline {
 			}
   			steps {
     			withSonarQubeEnv('Sonar') {
-        			sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.java.binaries=build/classes/java/ -Dsonar.projectKey=${env.IMAGE} -Dsonar.sources=.'''
+        			sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.java.binaries=build/classes/java/ -Dsonar.projectKey=${IMAGE} -Dsonar.sources=.'''
     			}
   			}
 		}		
