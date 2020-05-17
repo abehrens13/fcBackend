@@ -39,7 +39,7 @@ pipeline {
       }    
     }
 	stage('Build image') {
-            steps {
+            script {
                 echo 'Starting to build docker image'
 				customImage = docker.build("${env.IMAGE}:${env.VERSION}")
                 }
@@ -49,7 +49,7 @@ pipeline {
             steps {
                 echo 'Push docker image'
 
-                steps {
+                script {
                 	docker.withRegistry('https://hub.docker.com/', 'dockerhub-credential') {
                     	customImage.push()
                     }
