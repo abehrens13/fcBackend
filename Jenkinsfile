@@ -13,7 +13,6 @@ pipeline {
   }
   
   stages {
-    def customImage 
     stage('Initialize') {
       steps {
         sh '''
@@ -38,24 +37,25 @@ pipeline {
         }
       }    
     }
-	stage('Build image') {
-            script {
-                echo 'Starting to build docker image'
-				customImage = docker.build("${env.IMAGE}:${env.VERSION}")
-                }
-    }
+    /**
+    https://tutorials.releaseworksacademy.com/learn/building-your-first-docker-image-with-jenkins-2-guide-for-developers
+    https://blog.csuttles.io/using-jenkins-and-aws-to-build-and-push-docker-images/
+    */
     
-	stage('Push image') {
+	stage('Build image') {
             steps {
-                echo 'Push docker image'
+                echo 'Starting to build docker image'
 
                 script {
                 	docker.withRegistry('https://hub.docker.com/', 'dockerhub-credential') {
+                    	def customImage = docker.build("${env.IMAGE}:${env.VERSION}")
                     	customImage.push()
                     }
+                }
             }
         }
-	}
+    
+
     
   }
   tools {
