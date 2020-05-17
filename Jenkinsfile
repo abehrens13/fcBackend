@@ -45,13 +45,25 @@ pipeline {
 		
 
 		/**=======================*/
-		//https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-jenkins/
+		//https://igorski.co/sonarqube-scans-using-jenkins-declarative-pipelines/
+		stage('SonarCloud') {
+  			environment {
+    			SCANNER_HOME = tool 'MySonarQubeScanner'
+    			PROJECT_NAME = "igorstojanovski_jenkins-pipeline-as-code"
+			}
+  			steps {
+    			withSonarQubeEnv('Sonar') {
+        			sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.java.binaries=build/classes/java/ -Dsonar.projectKey=${env.IMAGE} -Dsonar.sources=.'''
+    			}
+  			}
+		}		
+		
 		stage('Sonarqube') {
     		environment {
         		scannerHome = tool 'docker-sonar'
     		}
     		steps {
-        		withSonarQubeEnv('sonarqube') {
+        		withSonarQubeEnv('My SonarQube Server') {
             		sh "${scannerHome}/bin/sonar-scanner"
         		}
         		timeout(time: 10, unit: 'MINUTES') {

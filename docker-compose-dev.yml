@@ -43,7 +43,6 @@ services:
 networks:
   backend: null
   sonarnet:
-    driver: bridge
 volumes:
   redis: null
   pgdata: null
