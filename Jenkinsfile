@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    def customImage 
     options {
         timeout(time: 15, unit: 'MINUTES') 
     }
@@ -14,6 +13,7 @@ pipeline {
   }
   
   stages {
+    def customImage 
     stage('Initialize') {
       steps {
         sh '''
