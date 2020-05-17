@@ -1,5 +1,16 @@
 pipeline {
-  agent { dockerfile true }
+  agent none
+    agent any
+    options {
+        timeout(time: 15, unit: 'MINUTES') 
+    }
+
+  environment {
+    //Use Pipeline Utility Steps plugin to read information from pom.xml into env variables
+    IMAGE = readMavenPom().getArtifactId()
+    VERSION = readMavenPom().getVersion()
+  }
+  
   stages {
     stage('Initialize') {
       steps {
@@ -30,23 +41,18 @@ pipeline {
     https://blog.csuttles.io/using-jenkins-and-aws-to-build-and-push-docker-images/
     */
     
-     stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
+	stage('Build image') {
+            steps {
+                echo 'Starting to build docker image'
 
-        app = docker.build("feb18/fcBackend")
-    }
-    
-    stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("0.0.1-SNAPSHOT")
-            //app.push("latest")
+                script {
+                    def customImage = docker.build("${env.IMAGE}:${env.VERSION}")
+                    customImage.push()
+                }
+            }
         }
-    }
+    
+
     
   }
   tools {
