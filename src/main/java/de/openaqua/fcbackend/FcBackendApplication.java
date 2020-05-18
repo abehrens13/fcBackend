@@ -14,7 +14,7 @@ public class FcBackendApplication {
 
   public static void main(String[] args) {
     LOG.debug("FcBackendApplication::main()");
-    SpringApplication.run(FcBackendApplication.class, args);
+    SpringApplication.run(FcBackendApplication.class);
 
   }
 }

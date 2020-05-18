@@ -36,14 +36,10 @@ class QuizzSessionControllerTest {
     assertTrue(r1.getBody().getId().equals(r3.getBody()));
 
     // patch illegal session
-    Assertions.assertThrows(ResourceAccessException.class, () -> {
-      controller.patchSession(s.getId());
-    });
+    Assertions.assertThrows(ResourceAccessException.class, () -> controller.patchSession(s.getId()));
 
     // delete illegal session
-    Assertions.assertThrows(ResourceAccessException.class, () -> {
-      controller.deleteSession(s.getId());
-    });
+    Assertions.assertThrows(ResourceAccessException.class, () -> controller.deleteSession(s.getId()));
 
   }
 }

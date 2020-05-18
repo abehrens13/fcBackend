@@ -3,9 +3,9 @@ package de.openaqua.fcbackend.repositories;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +19,7 @@ import de.openaqua.fcbackend.entities.Quizz;
 @Repository
 public class QuestionsRepository {
   private static final Logger LOG = LoggerFactory.getLogger(QuestionsRepository.class);
+  private static final SecureRandom secureRandom = new SecureRandom();
   private Quizz quizz;
 
   @Value("classpath:/static/questions2.yaml")
@@ -99,9 +100,8 @@ public class QuestionsRepository {
 
   private int getRandomQuestionId() {
     LOG.debug("getRandomQuestionId()");
-    int min = 0;
     int max = getAmountOfQuestions() - 1;
-    return ThreadLocalRandom.current().nextInt(min, max + 1);
+    return secureRandom.nextInt(max);
   }
 
   public Optional<Question> findRandomQuestion() {
