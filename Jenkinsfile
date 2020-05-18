@@ -84,6 +84,7 @@ pipeline {
         		sh """
           			docker login
           			docker build -t ${env.DOCKERID}/${env.IMAGE}:${env.VERSION} .
+					docker tag ${env.DOCKERID}/${env.IMAGE}:${env.VERSION} ${env.DOCKERID}/${env.IMAGE}:latest
           			docker push ${env.DOCKERID}/${env.IMAGE}:${env.VERSION}
           			docker push ${env.DOCKERID}/${env.IMAGE}:latest
         		"""
