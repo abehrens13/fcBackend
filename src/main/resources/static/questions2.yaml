@@ -9,3 +9,9 @@ questions:
       Project Manager: false
       Team Leader: false
     description: Only Product Master, Scrum Master and Development Team are members of the Scrum Team
+  What Time is it?:
+    answers:
+      Too early: false
+      Too late: false
+      Just right: true
+    description: There is only one right time and this is now.

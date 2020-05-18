@@ -3,27 +3,33 @@ package de.openaqua.fcbackend.entities;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @RedisHash("Question")
 public class Question {
 	private Map<String, Boolean> answers;
+	@Id
 	private String description;
-	private String question;
+	private String questionStr;
 
 	public Question(Map<String, Boolean> answers, String description, String question) {
 		super();
 		this.answers = answers;
 		this.description = description;
-		this.question = question;
+		this.questionStr = question;
 	}
 
 	public Question() {
 		super();
 		this.description = "";
 		this.answers = new HashMap<>();
-		this.question = "";
+		this.questionStr = "";
 
+	}
+
+	public void add(Boolean value, String key) {
+		this.answers.put(key, value);
 	}
 
 	public Map<String, Boolean> getAnswers() {
@@ -42,24 +48,17 @@ public class Question {
 		this.description = description;
 	}
 
-	public void add(Boolean value, String key) {
-		answers.putIfAbsent(key, value);
+	public String getQuestionStr() {
+		return questionStr;
 	}
 
-	public Boolean get(String key) {
-		return answers.get(key);
-	}
-
-	public String getQuestion() {
-		return question;
-	}
-
-	public void setQuestion(String question) {
-		this.question = question;
+	public void setQuestionStr(String questionStr) {
+		this.questionStr = questionStr;
 	}
 
 	@Override
 	public String toString() {
-		return "Question [answers=" + answers + ", description=" + description + ", question=" + question + "]";
+		return "Question [answers=" + answers + ", description=" + description + ", questionStr=" + questionStr + "]";
 	}
+
 }
