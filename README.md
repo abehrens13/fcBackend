@@ -41,4 +41,9 @@ mvn docker:stop
  - git checkout master - switch to master branch
  - git merge new-branch - merge new-branch into master 
 
+ Additional you have to update the following files
+ - pom.xml (version)
+ - jenkinsfile (version)
+ - Dockerfile (version)
+
 ## TODO
