@@ -41,7 +41,6 @@ public class QuizzSessionController {
     Optional<QuizzSession> c = repository.findById(q);
     if (c.isPresent()) {
       LOG.info("session {} found, can be patched ", q);
-      // TODO: Fill out later..
     } else {
       LOG.warn("attemp to patch unknown session {}", q);
       throw new ResourceAccessException("Resource Not found: " + q);
