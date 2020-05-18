@@ -2,15 +2,15 @@ pipeline {
 	agent any
     options {
     	timeout(time: 15, unit: 'MINUTES')
-    	disableConcurrentBuilds() 
+    	disableConcurrentBuilds()
     }
 
 	environment {
     	DOCKERID = "feb18"
     	IMAGE = 'fcbackend'
-    	VERSION = '0.0.1-SNAPSHOT'
+    	VERSION = '0.0.2-SNAPSHOT'
   	}
-  
+
 	stages {
 		/**=======================*/
 		stage('Show Tool Versions'){
@@ -19,34 +19,34 @@ pipeline {
 				sh 'docker --version'
 				sh 'java -version'
 				echo "PATH = ${PATH}"
-                echo "M2_HOME = ${M2_HOME}"			    
+                echo "M2_HOME = ${M2_HOME}"
 			}
 		}
-		
+
 		/**=======================*/
 		stage('Maven Build') {
       		steps {
-        		sh 'mvn -DskipTests clean package' 
+        		sh 'mvn -DskipTests clean package'
       		}
     	}
-    	
-    	
+
+
 		/**=======================*/
 		stage('Unit Tests') {
       		steps {
-        		sh 'mvn test' 
+        		sh 'mvn test'
       		}
       		post {
         		success {
-          			junit 'target/surefire-reports/**/*.xml' 
+          			junit 'target/surefire-reports/**/*.xml'
         		}
-      		}    
+      		}
 		}
-		
+
 		/**=======================*/
 		stage('Maven Install') {
       		steps {
-        		sh 'mvn install' 
+        		sh 'mvn install'
       		}
 		}
 
@@ -61,8 +61,8 @@ pipeline {
         			sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.java.binaries=target/classes -Dsonar.projectKey=${IMAGE} -Dsonar.sources=.'''
     			}
   			}
-		}		
-		
+		}
+
 		/**=======================*/
 		stage('Build Docker Image - All Branches') {
 			when { branch pattern: "dev-.*", comparator: "REGEXP"}
@@ -72,9 +72,9 @@ pipeline {
           			docker build -t ${env.DOCKERID}/${env.IMAGE}:${env.VERSION} .
           			docker push ${env.DOCKERID}/${env.IMAGE}:${env.VERSION}
         		"""
-      		}    
-		}		
-		
+      		}
+		}
+
 		/**=======================*/
 		stage('Build Docker Image - Master Branch') {
       		when {
@@ -87,11 +87,11 @@ pipeline {
           			docker push ${env.DOCKERID}/${env.IMAGE}:${env.VERSION}
           			docker push ${env.DOCKERID}/${env.IMAGE}:latest
         		"""
-      		}    
-		}		
-		
+      		}
+		}
+
 	}
-  
+
   	tools {
     	maven '/usr/local/bin/mvn'
     	jdk 'JDK8'
