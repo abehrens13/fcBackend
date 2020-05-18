@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.openaqua.fcbackend.SerialGenerator;
 import de.openaqua.fcbackend.entities.MonitorResponse;
 import de.openaqua.fcbackend.entities.MonitorStatus;
-import de.openaqua.fcbackend.redis.SessionRepository;
+import de.openaqua.fcbackend.redis.RedisSessionRepository;
 import de.openaqua.fcbackend.redis.RedisSession;
 
 @RestController
@@ -21,7 +21,7 @@ public class MonitorController {
   private static final Logger LOG = LoggerFactory.getLogger(MonitorController.class);
 
   @Autowired
-  private SessionRepository redis;
+  private RedisSessionRepository redis;
 
   @Autowired
   private SerialGenerator serialGenerator;

@@ -2,16 +2,16 @@ description: AWS Developer Questions
 questions:
   Who are members of a Scrum team?:
     answers:
-      Product Owner: true
-      Scrum Master: true
-      Develment Team: true
-      Stakeholder: false
-      Project Manager: false
-      Team Leader: false
+      A) Product Owner: true
+      B) Scrum Master: true
+      C) Develment Team: true
+      D) Stakeholder: false
+      E) Project Manager: false
+      F) Team Leader: false
     description: Only Product Master, Scrum Master and Development Team are members of the Scrum Team
   What Time is it?:
     answers:
-      Too early: false
-      Too late: false
-      Just right: true
+      A) Too early: false
+      B) Too late: false
+      C) Just right: true
     description: There is only one right time and this is now.
