@@ -92,9 +92,4 @@ pipeline {
 		}
 
 	}
-
-  	tools {
-    	maven '/usr/local/bin/mvn'
-    	jdk 'JDK8'
-  	}
 }
