@@ -1,0 +1,73 @@
+openapi: 3.0.0
+#------------------------------------------------
+# https://swagger.io/docs/specification/
+#------------------------------------------------
+info:
+  title: fcBackend-API
+  description: This is a description of the fcBackend API
+  version: 1.0.0
+  license:
+    name: GNU 3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+
+paths:
+  /session:
+    get:
+      summary: Returns a new Quizz Session
+      description: each Quizz Session has a beginning and an end
+      responses:
+        '200':
+          description: A JSON Array of a session object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuizzSession'
+    delete:
+      summary: finishs a session
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          description: session String as created by get
+          schema:
+            type: string
+            minimum: 1
+            maximum: 100
+            example: 1f9d14f1-6179-4dbd-9c53-915412622640
+      responses:
+        '200':
+          description: deletes the session. The quizz has been finished afterwards
+        '410':
+          description: session id not found
+    patch:
+      summary: modifies a session
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          description: session String as created by get
+          schema:
+            type: string
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: deletes the session. The quizz has been finished afterwards
+        '410':
+          description: session id not found
+components:
+  schemas:
+    QuizzSession:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1f9d14f1-6179-4dbd-9c53-915412622640
+        creationTime:
+          type: string
+          format: date-time
+          example: '2020-05-19T12:45:32.538Z'
+servers:
+  - url: 'http://localhost:8000/'
+    variables: {}
+    description: dev-Server

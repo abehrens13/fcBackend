@@ -40,9 +40,14 @@ services:
     - sonarqube_data:/opt/sonarqube/data
     networks:
     - sonarnet
+  swaggerui:
+    container_name: swaggerui
+    image: swaggerapi/swagger-editor
+    ports:
+    - 8030:8080
 networks:
   backend: null
-  sonarnet:
+  sonarnet: null
 volumes:
   redis: null
   pgdata: null
