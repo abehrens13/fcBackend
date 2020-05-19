@@ -45,14 +45,6 @@ services:
     image: swaggerapi/swagger-editor
     ports:
     - 8030:8080
-  jenkins:
-    container_name: jenkins
-    image: jenkins/jenkins:lts
-    ports:
-    - 8040:8080
-    - 50000:50000
-    volumes:
-    - jenkins:/var/jenkins_home
 networks:
   backend: null
   sonarnet: null
