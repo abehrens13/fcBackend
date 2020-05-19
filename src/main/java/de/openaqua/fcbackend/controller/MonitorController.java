@@ -1,24 +1,25 @@
 package de.openaqua.fcbackend.controller;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.RedisConnectionFailureException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
 import de.openaqua.fcbackend.SerialGenerator;
-import de.openaqua.fcbackend.entities.MonitorResponse;
-import de.openaqua.fcbackend.entities.MonitorStatus;
-import de.openaqua.fcbackend.redis.RedisSessionRepository;
 import de.openaqua.fcbackend.redis.RedisSession;
+import de.openaqua.fcbackend.redis.RedisSessionRepository;
+import io.swagger.api.MonitorApi;
+import io.swagger.model.MonitorResponse;
+import io.swagger.model.MonitorStatus;
 
 @RestController
-@RequestMapping(path = "/monitor")
-public class MonitorController {
-  private static final Logger LOG = LoggerFactory.getLogger(MonitorController.class);
+public class MonitorController implements MonitorApi {
 
   @Autowired
   private RedisSessionRepository redis;
@@ -27,6 +28,7 @@ public class MonitorController {
   private SerialGenerator serialGenerator;
 
   private MonitorStatus checkRedis() {
+    log.debug("checkRedis()");
     // Store and retrieve some data from redis to test redis
     try {
       if (serialGenerator == null) {
@@ -50,24 +52,34 @@ public class MonitorController {
       redis.delete(session);
 
     } catch (RedisConnectionFailureException | ServiceNotAvailable e) {
-      LOG.error("Redis Exception: {}", e.getLocalizedMessage());
+      log.error("Redis Exception: {}", e.getLocalizedMessage());
       return MonitorStatus.FAILURE;
     }
 
     return MonitorStatus.OK;
   }
 
-  @GetMapping()
-  public MonitorResponse index() {
-    LOG.info("GET /");
+  @Override
+  public ResponseEntity<MonitorResponse> monitorGet() {
+    log.info("GET /");
 
     // create default response
     MonitorResponse response = new MonitorResponse();
-    response.setStatusDatabase(MonitorStatus.UNKNOWN);
+    response.setCurrentTime(OffsetDateTime.now(ZoneOffset.UTC));
+    try {
+      InetAddress inetAddress = InetAddress.getLocalHost();
+      response.setInetAddress(inetAddress.getHostAddress());
+      response.setHostname(inetAddress.getHostName());
+    } catch (UnknownHostException e) {
+      log.error("cannot resolve ip-address: {}", e.getLocalizedMessage());
+      log.info("exception: ", e);
+    }
+
     response.setStatusSystem(MonitorStatus.OK);
     response.setStatusRedis(checkRedis());
+    response.setStatusOverall(MonitorStatus.OK);
 
     // return
-    return response;
+    return ResponseEntity.ok(response);
   }
 }

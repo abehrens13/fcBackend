@@ -6,25 +6,25 @@ import java.util.Map;
 import org.springframework.data.redis.core.RedisHash;
 
 @RedisHash("Quizz")
-public class Quizz {
+public class ImportQuizz {
 	private String description;
-	private Map<String, Question> questions;
+	private Map<String, ImportQuestion> questions;
 
-	public Question get(String key) {
+	public ImportQuestion get(String key) {
 		return questions.get(key);
 	}
 
-	public Question add(String key, Question value) {
+	public ImportQuestion add(String key, ImportQuestion value) {
 		return questions.put(key, value);
 	}
 
-	public Quizz(String description, Map<String, Question> questions) {
+	public ImportQuizz(String description, Map<String, ImportQuestion> questions) {
 		super();
 		this.description = description;
 		this.questions = questions;
 	}
 
-	public Quizz() {
+	public ImportQuizz() {
 		super();
 		this.description = "";
 		this.questions = new HashMap<>();
@@ -38,11 +38,11 @@ public class Quizz {
 		this.description = description;
 	}
 
-	public Map<String, Question> getQuestions() {
+	public Map<String, ImportQuestion> getQuestions() {
 		return questions;
 	}
 
-	public void setQuestions(Map<String, Question> questions) {
+	public void setQuestions(Map<String, ImportQuestion> questions) {
 		this.questions = questions;
 	}
 

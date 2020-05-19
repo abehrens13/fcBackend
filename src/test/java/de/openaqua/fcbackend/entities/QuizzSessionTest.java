@@ -8,11 +8,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
+import io.swagger.model.QuizzSession;
+
 class QuizzSessionTest {
 
   @Test
   void testSetGetId() {
     QuizzSession s = new QuizzSession();
+    s.setId("def");
     String abc = "abc";
     assertFalse(s.getId().equals(abc));
     s.setId(abc);
@@ -22,6 +25,7 @@ class QuizzSessionTest {
   @Test
   void testSetGetCreationTime() throws InterruptedException {
     QuizzSession s = new QuizzSession();
+    s.setCreationTime(OffsetDateTime.now(ZoneOffset.UTC));
     TimeUnit.SECONDS.sleep(1);
     OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
     assertFalse(s.getCreationTime().equals(now));

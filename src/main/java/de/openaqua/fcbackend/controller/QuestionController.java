@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.openaqua.fcbackend.entities.Question;
-import de.openaqua.fcbackend.entities.Quizz;
+import de.openaqua.fcbackend.entities.ImportQuestion;
+import de.openaqua.fcbackend.entities.ImportQuizz;
 import de.openaqua.fcbackend.repositories.QuestionsRepository;
 
 @RestController
@@ -24,16 +24,16 @@ public class QuestionController {
   private QuestionsRepository repository;
 
   @GetMapping()
-  public Optional<Quizz> index() {
+  public Optional<ImportQuizz> index() {
     LOG.info("GET /");
     return repository.getAll();
 
   }
 
   @GetMapping("/question={q}")
-  public ResponseEntity<Question> byId(@PathVariable final String q) {
+  public ResponseEntity<ImportQuestion> byId(@PathVariable final String q) {
     LOG.info("GET /question={}", q);
-    Optional<Question> out = repository.findByQuestions(q);
+    Optional<ImportQuestion> out = repository.findByQuestions(q);
     if (!out.isPresent()) {
       throw new NoSuchQuestionException("no resource found for question" + q);
     }
@@ -42,9 +42,9 @@ public class QuestionController {
   }
 
   @GetMapping("/random")
-  public ResponseEntity<Question> getRandom() {
+  public ResponseEntity<ImportQuestion> getRandom() {
     LOG.info("GET /getRandom");
-    Optional<Question> out = repository.findRandomQuestion();
+    Optional<ImportQuestion> out = repository.findRandomQuestion();
     if (!out.isPresent()) {
       throw new NoSuchQuestionException("no resource found");
     }

@@ -7,20 +7,20 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @RedisHash("Question")
-public class Question {
+public class ImportQuestion {
 	private Map<String, Boolean> answers;
 	@Id
 	private String description;
 	private String questionStr;
 
-	public Question(Map<String, Boolean> answers, String description, String question) {
+	public ImportQuestion(Map<String, Boolean> answers, String description, String question) {
 		super();
 		this.answers = answers;
 		this.description = description;
 		this.questionStr = question;
 	}
 
-	public Question() {
+	public ImportQuestion() {
 		super();
 		this.description = "";
 		this.answers = new HashMap<>();

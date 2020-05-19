@@ -13,14 +13,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import de.openaqua.fcbackend.entities.Question;
-import de.openaqua.fcbackend.entities.Quizz;
+import de.openaqua.fcbackend.entities.ImportQuestion;
+import de.openaqua.fcbackend.entities.ImportQuizz;
 
 @Repository
 public class QuestionsRepository {
   private static final Logger LOG = LoggerFactory.getLogger(QuestionsRepository.class);
   private static final SecureRandom secureRandom = new SecureRandom();
-  private Quizz quizz;
+  private ImportQuizz quizz;
 
   @Value("classpath:/static/questions2.yaml")
   private Resource questionFile;
@@ -35,11 +35,11 @@ public class QuestionsRepository {
     ObjectMapper om = new ObjectMapper(new YAMLFactory());
     try {
       InputStream dbAsStream = questionFile.getInputStream();
-      quizz = om.readValue(dbAsStream, Quizz.class);
+      quizz = om.readValue(dbAsStream, ImportQuizz.class);
 
       LOG.info("Loaded quizz data from {}", questionFile.getFilename());
 
-      Map<String, Question> m = quizz.getQuestions();
+      Map<String, ImportQuestion> m = quizz.getQuestions();
       m.forEach((key, value) -> value.setQuestionStr(key));
 
     } catch (IOException e1) {
@@ -47,7 +47,7 @@ public class QuestionsRepository {
     }
   }
 
-  public void saveNew(String filename, Quizz quizz) {
+  public void saveNew(String filename, ImportQuizz quizz) {
     LOG.debug("saveNew({})", filename);
     ObjectMapper om = new ObjectMapper(new YAMLFactory());
     try {
@@ -57,7 +57,7 @@ public class QuestionsRepository {
     }
   }
 
-  public Optional<Quizz> getAll() {
+  public Optional<ImportQuizz> getAll() {
     LOG.debug("getAll()");
 
     if (quizz == null) {
@@ -83,13 +83,13 @@ public class QuestionsRepository {
     }
   }
 
-  public Optional<Question> findByQuestions(String question) {
+  public Optional<ImportQuestion> findByQuestions(String question) {
     LOG.debug("findByQuestions({})", question);
     if (quizz == null) {
       loadDefaultQuestionFile();
     }
     if (quizz != null) {
-      Question q = quizz.get(question);
+      ImportQuestion q = quizz.get(question);
       if (q != null) {
         return Optional.of(q);
       }
@@ -104,7 +104,7 @@ public class QuestionsRepository {
     return secureRandom.nextInt(max);
   }
 
-  public Optional<Question> findRandomQuestion() {
+  public Optional<ImportQuestion> findRandomQuestion() {
     LOG.debug("findRandomQuestion()");
     if (quizz == null) {
       loadDefaultQuestionFile();

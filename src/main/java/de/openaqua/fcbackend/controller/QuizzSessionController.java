@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
 
-import de.openaqua.fcbackend.entities.QuizzSession;
-import de.openaqua.fcbackend.repositories.QuizzSessionRepository;
+import io.swagger.api.MonitorApi;
+import io.swagger.api.SessionApi;
 
-@RestController
-@RequestMapping(path = "/session")
-public class QuizzSessionController {
+public class QuizzSessionController implements SessionApi {
   private static final Logger LOG = LoggerFactory.getLogger(QuizzSessionController.class);
-
+/*
   @Autowired
   private QuizzSessionRepository repository;
 
@@ -62,5 +60,6 @@ public class QuizzSessionController {
     }
     return ResponseEntity.ok(q);
   }
+  */
 
 }

@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   title: fcBackend-API
   description: This is a description of the fcBackend API
@@ -8,7 +8,19 @@ info:
     url: https://www.gnu.org/licenses/gpl-3.0.en.html
 
 paths:
-  /session2:
+  /monitor:
+    get:
+      summary: Returns health monitor information
+      description: A health monitor
+      responses:
+        '200':
+          description: A health monitor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorResponse'
+            
+  /session:
     get:
       summary: Returns a new Quizz Session
       description: each Quizz Session has a beginning and an end
@@ -18,7 +30,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/QuizzSession2'
+                $ref: '#/components/schemas/QuizzSession'
     delete:
       summary: finishs a session
       parameters:
@@ -27,26 +39,7 @@ paths:
           required: true
           description: session String as created by get
           schema:
-            type: string
-            minimum: 1
-            maximum: 100
-            example: 1f9d14f1-6179-4dbd-9c53-915412622640
-      responses:
-        '200':
-          description: deletes the session. The quizz has been finished afterwards
-        '410':
-          description: session id not found
-    patch:
-      summary: modifies a session
-      parameters:
-        - name: sessionId
-          in: path
-          required: true
-          description: session String as created by get
-          schema:
-            type: string
-            minimum: 1
-            maximum: 100
+            $ref: '#/components/schemas/SessionId'
       responses:
         '200':
           description: deletes the session. The quizz has been finished afterwards
@@ -54,16 +47,48 @@ paths:
           description: session id not found
 components:
   schemas:
-    QuizzSession2:
+    SessionId:
+      type: string
+      description: an unique string which identifies a session
+      example: 1f9d14f1-6179-4dbd-9c53-915412622640
+    QuizzSession:
       type: object
       properties:
         id:
-          type: string
-          example: 1f9d14f1-6179-4dbd-9c53-915412622640
+          $ref: '#/components/schemas/SessionId'
         creationTime:
           type: string
           format: date-time
           example: '2020-05-19T12:45:32.538Z'
+    MonitorStatus:
+      type: string
+      enum:
+      - OK
+      - FAILURE
+      - UNKNOWN
+    MonitorResponse:
+      type: object
+      properties:
+        currentTime:
+          type: string
+          format: date-time
+          example: '2020-05-19T12:45:32.538Z'
+        hostname:
+          type: string
+          format: hostname
+          example: localhost
+        inetAddress:
+          type: string
+          format: ipv4
+          example: 127.0.0.1
+        statusSystem:
+          $ref: '#/components/schemas/MonitorStatus'
+        statusRedis:
+          $ref: '#/components/schemas/MonitorStatus'
+        statusOverall:
+          $ref: '#/components/schemas/MonitorStatus'
+        
+
 servers:
   - url: 'http://localhost:8000/'
     variables: {}
