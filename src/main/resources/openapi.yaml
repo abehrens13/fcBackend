@@ -1,7 +1,4 @@
 openapi: 3.0.0
-#------------------------------------------------
-# https://swagger.io/docs/specification/
-#------------------------------------------------
 info:
   title: fcBackend-API
   description: This is a description of the fcBackend API
@@ -11,7 +8,7 @@ info:
     url: https://www.gnu.org/licenses/gpl-3.0.en.html
 
 paths:
-  /session:
+  /session2:
     get:
       summary: Returns a new Quizz Session
       description: each Quizz Session has a beginning and an end
@@ -21,7 +18,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/QuizzSession'
+                $ref: '#/components/schemas/QuizzSession2'
     delete:
       summary: finishs a session
       parameters:
@@ -57,7 +54,7 @@ paths:
           description: session id not found
 components:
   schemas:
-    QuizzSession:
+    QuizzSession2:
       type: object
       properties:
         id:
