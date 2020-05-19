@@ -13,7 +13,7 @@ services:
     build: .
     networks:
     - backend
-    image: feb18/fcbackend:0.0.1-SNAPSHOT
+    image: feb18/fcbackend:0.0.2-SNAPSHOT
     ports:
     - 8000:8000
     stop_grace_period: 1m30s
