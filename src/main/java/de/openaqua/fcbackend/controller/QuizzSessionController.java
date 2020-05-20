@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.ResourceAccessException;
 
 import de.openaqua.fcbackend.api.SessionApi;
 import de.openaqua.fcbackend.entities.QuizzSessionRedis;
@@ -48,7 +47,7 @@ public class QuizzSessionController implements SessionApi {
       log.info("session finished {}", sessionId);
     } else {
       log.warn("attemp to delete unknown session {}", sessionId);
-      throw new ResourceAccessException("Resource Not found: " + sessionId);
+      return new ResponseEntity<>(HttpStatus.GONE);
     }
     return new ResponseEntity<>(HttpStatus.OK);
   }

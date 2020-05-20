@@ -74,9 +74,17 @@ public class MonitorController implements de.openaqua.fcbackend.api.MonitorApi {
       log.info("exception: ", e);
     }
 
+    //set status
+    response.setStatusOverall(MonitorStatus.UNKNOWN);
     response.setStatusSystem(MonitorStatus.OK);
     response.setStatusRedis(checkRedis());
-    response.setStatusOverall(MonitorStatus.OK);
+    if (response.getStatusRedis().equals(MonitorStatus.OK)
+        && response.getStatusSystem().equals(MonitorStatus.OK)) {
+      response.setStatusOverall(MonitorStatus.OK);
+    } else if (response.getStatusRedis().equals(MonitorStatus.FAILURE)
+        || response.getStatusSystem().equals(MonitorStatus.FAILURE)) {
+      response.setStatusOverall(MonitorStatus.FAILURE);
+    }
 
     // return
     return ResponseEntity.ok(response);
