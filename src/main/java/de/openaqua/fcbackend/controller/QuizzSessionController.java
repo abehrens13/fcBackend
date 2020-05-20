@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -19,6 +17,7 @@ import de.openaqua.fcbackend.api.SessionApi;
 import de.openaqua.fcbackend.entities.QuizzSessionRedis;
 import de.openaqua.fcbackend.model.QuizzSession;
 import de.openaqua.fcbackend.repositories.QuizzSessionRepository;
+import io.swagger.annotations.ApiParam;
 
 @Component
 @RestController
@@ -39,9 +38,9 @@ public class QuizzSessionController implements SessionApi {
     return ResponseEntity.ok(a);
   }
 
-  
-  @RequestMapping(value = "/session/{sessionId}", method = RequestMethod.DELETE)
-  public ResponseEntity<Void> deleteSession(@PathVariable("sessionId") String sessionId) {
+  @Override
+  public ResponseEntity<Void> deleteSession(
+      @ApiParam(value = "session String as created by get", required = true) @PathVariable("sessionId") String sessionId) {
     log.info("DELETE /session={}", sessionId);
     Optional<QuizzSessionRedis> c = repository.findById(sessionId);
     if (c.isPresent()) {
@@ -53,5 +52,4 @@ public class QuizzSessionController implements SessionApi {
     }
     return new ResponseEntity<>(HttpStatus.OK);
   }
-
 }

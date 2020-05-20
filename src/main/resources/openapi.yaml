@@ -20,6 +20,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MonitorResponse'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/MonitorResponse'
             
   /session:
     get:
@@ -33,6 +36,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/QuizzSession'
+  /session/{sessionId}:
     delete:
       summary: finishs a QuizzSession and deletes all related data
       operationId: deleteSession
