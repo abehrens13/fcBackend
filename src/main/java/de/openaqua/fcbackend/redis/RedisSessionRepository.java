@@ -1,6 +1,6 @@
 package de.openaqua.fcbackend.redis;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface RedisSessionRepository extends CrudRepository<RedisSession, String> {
+public interface RedisSessionRepository extends PagingAndSortingRepository<RedisSession, String> {
 }

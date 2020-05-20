@@ -1,65 +1,57 @@
 package de.openaqua.fcbackend.controller;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
 
-import io.swagger.api.MonitorApi;
-import io.swagger.api.SessionApi;
+import de.openaqua.fcbackend.api.SessionApi;
+import de.openaqua.fcbackend.entities.QuizzSessionRedis;
+import de.openaqua.fcbackend.model.QuizzSession;
+import de.openaqua.fcbackend.repositories.QuizzSessionRepository;
 
+@Component
+@RestController
 public class QuizzSessionController implements SessionApi {
-  private static final Logger LOG = LoggerFactory.getLogger(QuizzSessionController.class);
-/*
+
   @Autowired
   private QuizzSessionRepository repository;
 
-  @GetMapping
-  public ResponseEntity<QuizzSession> newSession() {
-    LOG.info("GET /session/new");
-    QuizzSession a = repository.save(new QuizzSession(UUID.randomUUID().toString()));
-    LOG.info("New Session startet: {}", a);
+  @Override
+  public ResponseEntity<QuizzSession> getSession() {
+
+    log.info("GET /session/new");
+    QuizzSessionRedis s = new QuizzSessionRedis();
+    s.setId(UUID.randomUUID().toString());
+    s.setCreationTime(OffsetDateTime.now(ZoneOffset.UTC));
+    QuizzSessionRedis a = repository.save(s);
+    log.info("New Session startet: {}", a.getId());
     return ResponseEntity.ok(a);
   }
 
-  @PatchMapping("{q}")
-  public ResponseEntity<QuizzSession> patchSession(@PathVariable final String q) {
-    LOG.info("PATCH /session={}", q);
-
-    Optional<QuizzSession> c = repository.findById(q);
-    if (c.isPresent()) {
-      LOG.info("session {} found, can be patched ", q);
-    } else {
-      LOG.warn("attemp to patch unknown session {}", q);
-      throw new ResourceAccessException("Resource Not found: " + q);
-    }
-    return ResponseEntity.ok(c.get());
-  }
-
-  @DeleteMapping("{q}")
-  public ResponseEntity<String> deleteSession(@PathVariable final String q) {
-    LOG.info("DELETE /session={}", q);
-
-    Optional<QuizzSession> c = repository.findById(q);
+  
+  @RequestMapping(value = "/session/{sessionId}", method = RequestMethod.DELETE)
+  public ResponseEntity<Void> deleteSession(@PathVariable("sessionId") String sessionId) {
+    log.info("DELETE /session={}", sessionId);
+    Optional<QuizzSessionRedis> c = repository.findById(sessionId);
     if (c.isPresent()) {
       repository.delete(c.get());
-      LOG.info("session finished {}", q);
+      log.info("session finished {}", sessionId);
     } else {
-      LOG.warn("attemp to delete unknown session {}", q);
-      throw new ResourceAccessException("Resource Not found: " + q);
+      log.warn("attemp to delete unknown session {}", sessionId);
+      throw new ResourceAccessException("Resource Not found: " + sessionId);
     }
-    return ResponseEntity.ok(q);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
-  */
 
 }

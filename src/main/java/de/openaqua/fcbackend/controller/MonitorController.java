@@ -12,14 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.openaqua.fcbackend.SerialGenerator;
+import de.openaqua.fcbackend.model.MonitorResponse;
+import de.openaqua.fcbackend.model.MonitorStatus;
 import de.openaqua.fcbackend.redis.RedisSession;
 import de.openaqua.fcbackend.redis.RedisSessionRepository;
-import io.swagger.api.MonitorApi;
-import io.swagger.model.MonitorResponse;
-import io.swagger.model.MonitorStatus;
 
 @RestController
-public class MonitorController implements MonitorApi {
+public class MonitorController implements de.openaqua.fcbackend.api.MonitorApi {
 
   @Autowired
   private RedisSessionRepository redis;
@@ -60,7 +59,7 @@ public class MonitorController implements MonitorApi {
   }
 
   @Override
-  public ResponseEntity<MonitorResponse> monitorGet() {
+  public ResponseEntity<MonitorResponse> getMonitor() {
     log.info("GET /");
 
     // create default response

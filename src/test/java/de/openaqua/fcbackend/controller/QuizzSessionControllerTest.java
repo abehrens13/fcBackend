@@ -1,18 +1,14 @@
 package de.openaqua.fcbackend.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
-
-import io.swagger.model.QuizzSession;
 
 @SpringBootTest()
 class QuizzSessionControllerTest {
-  //@Autowired
-  //private QuizzSessionController controller;
+  // @Autowired
+  // private QuizzSessionController controller;
 
   @Test
   void testNewSession() {

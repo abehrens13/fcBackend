@@ -1,6 +1,7 @@
 package de.openaqua.fcbackend.entities;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -8,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
-import io.swagger.model.QuizzSession;
+import de.openaqua.fcbackend.model.QuizzSession;
 
-class QuizzSessionTest {
+class QuizzSessionRedisTest {
 
   @Test
   void testSetGetId() {

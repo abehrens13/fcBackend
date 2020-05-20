@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+// @EnableJpaRepositories
+@SpringBootApplication(scanBasePackages = { "de.openaqua.fcbackend", "io.swagger.api", "io.swagger.model" })
 public class FcBackendApplication {
   private static final Logger LOG = LoggerFactory.getLogger(FcBackendApplication.class);
 

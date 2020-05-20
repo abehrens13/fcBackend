@@ -2,8 +2,7 @@ package de.openaqua.fcbackend.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import io.swagger.model.QuizzSession;
+import de.openaqua.fcbackend.entities.QuizzSessionRedis;
 
-
-public interface QuizzSessionRepository extends CrudRepository<QuizzSession, String> {
+public interface QuizzSessionRepository extends CrudRepository<QuizzSessionRedis, String> {
 }

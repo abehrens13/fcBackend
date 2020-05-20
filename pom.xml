@@ -15,6 +15,9 @@
 	<name>fcbackend</name>
 	<description>Flash Card Backend</description>
 	<properties>
+		<generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
+		<generated-sources-java-path>main/java</generated-sources-java-path>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.devtools.add-properties>true</spring.devtools.add-properties>
@@ -158,11 +161,24 @@
 				<version>2.2</version>
 			</plugin>
 			<!-- Plugin to generate api-doc from source code -->
-			<!-- <plugin> <groupId>org.springdoc</groupId> <artifactId>springdoc-openapi-maven-plugin</artifactId> 
-				<version>0.2</version> <executions> <execution> <phase>integration-test</phase> 
-				<goals> <goal>generate</goal> </goals> </execution> </executions> <configuration> 
-				<apiDocsUrl>http://localhost:8000/api-docs</apiDocsUrl> <outputFileName>openapi.json</outputFileName> 
-				<outputDir>${project.build.directory}</outputDir> </configuration> </plugin> -->
+			<plugin>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<apiDocsUrl>http://localhost:8000/api-docs</apiDocsUrl>
+					<outputFileName>openapi.json</outputFileName>
+					<outputDir>${project.build.directory}</outputDir>
+				</configuration>
+			</plugin>
 			<!-- make generated sources available for eclipse -->
 
 			<plugin>
@@ -177,10 +193,24 @@
 						</goals>
 						<configuration>
 							<sources>
-								<source>target/generated-sources/swagger/swagger</source>
+								<source>${generated-sources-path}/${generated-sources-java-path}</source>
+								<source>./src/main/java</source>
 							</sources>
 						</configuration>
 					</execution>
+					<execution>
+                        <id>add-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${generated-sources-path}/${generated-sources-java-path}</source>
+                                <source>./src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -196,10 +226,14 @@
 							<inputSpec>./src/main/resources/openapi.yaml</inputSpec>
 							<language>spring</language>
 							<configOptions>
-								<sourceFolder>swagger</sourceFolder>
 								<java8>true</java8>
 								<interfaceOnly>true</interfaceOnly>
+								<sourceFolder>${generated-sources-java-path}</sourceFolder>
+								<modelPackage>${project.groupId}.${project.artifactId}.model</modelPackage>
+								<apiPackage>${project.groupId}.${project.artifactId}.api</apiPackage>
+								<invokerPackage>${project.groupId}.${project.artifactId}.invoker</invokerPackage>
 							</configOptions>
+							<output>${generated-sources-path}</output>
 						</configuration>
 					</execution>
 				</executions>

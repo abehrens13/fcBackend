@@ -14,4 +14,5 @@ public class RedisConfiguration {
     RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("redis", 6379);
     return new JedisConnectionFactory(config);
   }
+
 }
