@@ -17,15 +17,15 @@ import de.openaqua.fcbackend.entities.ImportQuestion;
 import de.openaqua.fcbackend.entities.ImportQuizz;
 
 @Repository
-public class QuestionsRepository {
-  private static final Logger LOG = LoggerFactory.getLogger(QuestionsRepository.class);
+public class ImportQuestionsRepository {
+  private static final Logger LOG = LoggerFactory.getLogger(ImportQuestionsRepository.class);
   private static final SecureRandom secureRandom = new SecureRandom();
   private ImportQuizz quizz;
 
   @Value("classpath:/static/questions2.yaml")
   private Resource questionFile;
 
-  public QuestionsRepository() {
+  public ImportQuestionsRepository() {
     LOG.debug("setup QuestionsRepository()");
     quizz = null;
   }

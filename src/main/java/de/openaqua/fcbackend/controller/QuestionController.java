@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import de.openaqua.fcbackend.entities.ImportQuestion;
 import de.openaqua.fcbackend.entities.ImportQuizz;
-import de.openaqua.fcbackend.repositories.QuestionsRepository;
+import de.openaqua.fcbackend.repositories.ImportQuestionsRepository;
 
 @RestController
 @RequestMapping(path = "/questions")
@@ -21,7 +21,7 @@ public class QuestionController {
   private static final Logger LOG = LoggerFactory.getLogger(QuestionController.class);
 
   @Autowired
-  private QuestionsRepository repository;
+  private ImportQuestionsRepository repository;
 
   @GetMapping()
   public Optional<ImportQuizz> index() {
