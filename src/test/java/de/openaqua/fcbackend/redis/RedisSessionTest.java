@@ -37,7 +37,6 @@ class RedisSessionTest {
   void testToString() {
     QuizzSessionRedis s = new QuizzSessionRedis();
     s.setId("abc");
-    System.out.print(s.toString());
     String ss = s.toString();
     assertFalse(ss == null);
     assertFalse(ss.isEmpty());
