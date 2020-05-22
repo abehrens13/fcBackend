@@ -1,4 +1,4 @@
-package de.openaqua.fcbackend.entities;
+package de.openaqua.fcbackend.redis;
 
 import org.springframework.data.redis.core.RedisHash;
 

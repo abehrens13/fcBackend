@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.openaqua.fcbackend.api.SessionApi;
-import de.openaqua.fcbackend.entities.QuizzSessionRedis;
 import de.openaqua.fcbackend.model.QuizzSession;
-import de.openaqua.fcbackend.repositories.QuizzSessionRepository;
+import de.openaqua.fcbackend.redis.QuizzSessionRedis;
+import de.openaqua.fcbackend.redis.RedisRepository;
 import io.swagger.annotations.ApiParam;
 
 @Component
@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiParam;
 public class QuizzSessionController implements SessionApi {
 
   @Autowired
-  private QuizzSessionRepository repository;
+  private RedisRepository repository;
 
   @Override
   public ResponseEntity<QuizzSession> getSession() {

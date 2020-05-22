@@ -45,6 +45,30 @@ services:
     image: swaggerapi/swagger-editor
     ports:
     - 8030:8080
+  mongo:
+    image: mongo
+    networks:
+    - backend
+    restart: on-failure
+    ports:
+    - 27017:27017
+  mongo-express:
+    image: mongo-express
+    networks:
+    - backend
+    restart: always
+    ports:
+    - 8020:8081
+  mongoclient:
+    image: mongoclient/mongoclient
+    networks:
+    - backend
+    restart: 'no'
+    ports:
+    - 8040:3000
+    environment:
+      MONGO_URL: mongodb://mongo:27017/mydb
+      MONGOCLIENT_DEFAULT_CONNECTION_URL: mongodb://mongo:27017/mydb
 networks:
   backend: null
   sonarnet: null
