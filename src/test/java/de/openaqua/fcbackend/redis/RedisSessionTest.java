@@ -1,6 +1,7 @@
 package de.openaqua.fcbackend.redis;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -12,16 +13,18 @@ class RedisSessionTest {
 
   @Test
   void testSetGetId() {
-    RedisSession s = new RedisSession();
+    QuizzSessionRedis s = new QuizzSessionRedis();
     String abc = "abc";
-    assertFalse(s.getId().equals(abc));
     s.setId(abc);
     assertTrue(s.getId().equals(abc));
+    s.setId("def");
+    assertTrue(s.getId().equals("def"));
   }
 
   @Test
   void testSetGetCreationTime() throws InterruptedException {
-    RedisSession s = new RedisSession();
+    QuizzSessionRedis s = new QuizzSessionRedis();
+    s.setCreationTime(OffsetDateTime.now(ZoneOffset.UTC));
     TimeUnit.SECONDS.sleep(1);
     OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
     assertFalse(s.getCreationTime().equals(now));
@@ -32,9 +35,12 @@ class RedisSessionTest {
 
   @Test
   void testToString() {
-    RedisSession s = new RedisSession();
-    assertFalse(s.toString() == null);
-    assertFalse(s.toString().isEmpty());
+    QuizzSessionRedis s = new QuizzSessionRedis();
+    s.setId("abc");
+    System.out.print(s.toString());
+    String ss = s.toString();
+    assertFalse(ss == null);
+    assertFalse(ss.isEmpty());
   }
 
 }
