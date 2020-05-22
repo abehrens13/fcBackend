@@ -1,6 +1,6 @@
 # fcBackend - FlashCard Backend
 
-Sample Projekt.
+FlashCard game for AWS
 
 ## docker build
  - docker build -t feb18/fcBackend:latest .
