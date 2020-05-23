@@ -4,13 +4,26 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import de.openaqua.fcbackend.SerialGenerator;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SerialGeneratorTest {
+  @Autowired
+  private SerialGenerator generator;
+
+  @Test
+  void testSerialGeneratorAutowired() {
+    assertTrue(generator != null);
+    assertFalse(generator.getPrefix().isEmpty());
+    assertTrue(generator.getPrefix().equals("DEF"));
+    assertTrue(generator.getNumber() == SerialGenerator.DEFAULT_STARTVALUE);
+  }
 
   @Test
   void testSerialGenerator() {
