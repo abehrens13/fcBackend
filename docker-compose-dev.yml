@@ -8,6 +8,8 @@ services:
     - 6379:6379
     volumes:
     - redis:/data
+    networks:
+    - backend
   postgres:
     container_name: postgres
     image: postgres:12-alpine
@@ -29,6 +31,8 @@ services:
     - SONARQUBE_JDBC_URL=jdbc:postgresql://postgres:5432/sonar
     - SONAR_JDBC_PASSWORD=postgress
     - SONAR_JDBC_USERNAME=postgres
+    depends_on:
+    - postgres
     ports:
     - 9000:9000
     - 9092:9092
@@ -51,27 +55,23 @@ services:
     restart: on-failure
     ports:
     - 27017:27017
+    networks:
+    - backend
   mongo-express:
     container_name: mongo-express
     image: mongo-express
-    restart: always
+    restart: on-failure
+    depends_on:
+    - mongo
     ports:
     - 8020:8081
     links:
     - mongo
-  mongoclient:
-    container_name: mongo-client
-    image: mongoclient/mongoclient
-    restart: 'no'
-    ports:
-    - 8040:3000
-    links:
-    - mongo
-    environment:
-      MONGO_URL: mongodb://mongo:27017/mydb
-      MONGOCLIENT_DEFAULT_CONNECTION_URL: mongodb://mongo:27017/mydb
+    networks:
+    - backend
 networks:
   sonarnet: null
+  backend: null
 volumes:
   redis: null
   pgdata: null
