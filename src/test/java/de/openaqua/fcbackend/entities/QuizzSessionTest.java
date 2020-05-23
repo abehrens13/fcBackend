@@ -1,6 +1,7 @@
 package de.openaqua.fcbackend.entities;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.OffsetDateTime;
@@ -9,9 +10,22 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
-import de.openaqua.fcbackend.model.QuizzSession;
+class QuizzSessionTest {
 
-class QuizzSessionRedisTest {
+  @Test
+  void testConstructor() {
+    QuizzSession s = new QuizzSession();
+    OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+    long diff = now.toEpochSecond() - s.getCreationTime().toEpochSecond(); // should be less than 2 sec
+    assertNotNull(s);
+    assertNotNull(s.getId());
+    assertNotNull(s.getCreationTime());
+    assertNotNull(s.toString());
+    assertFalse(s.getId().isEmpty());
+    assertTrue(s.getId().length() > 10);
+    assertTrue(diff >= 0);
+    assertTrue(diff <= 2);
+  }
 
   @Test
   void testSetGetId() {

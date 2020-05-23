@@ -8,20 +8,7 @@ info:
     url: https://www.gnu.org/licenses/gpl-3.0.en.html
 
 paths:
-  /monitor:
-    get:
-      summary: Returns health monitor information
-      description: A health monitor
-      operationId: getMonitor
-      responses:
-        '200':
-          description: A health monitor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorResponse'
-
-  /session:
+  /quizz:
     get:
       summary: Returns a new Quizz Session
       description: each Quizz Session has a beginning and an end
@@ -32,8 +19,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/QuizzSession'
-  /session/{sessionId}:
+                $ref: '#/components/schemas/IQuizzSession'
+  /quizz/{sessionId}:
+    get:
+      summary: requests a new questions
+      operationId: getNextQuestion
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          description: session String as created by get
+          schema:
+            $ref: '#/components/schemas/ISessionId'
+      responses:
+        '200':
+          description: deletes the session. The quizz has been finished afterwards
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IQuestion'
+        '410':
+          description: session id not found
     delete:
       summary: finishs a QuizzSession and deletes all related data
       operationId: deleteSession
@@ -43,7 +49,7 @@ paths:
           required: true
           description: session String as created by get
           schema:
-            $ref: '#/components/schemas/SessionId'
+            $ref: '#/components/schemas/ISessionId'
       responses:
         '200':
           description: deletes the session. The quizz has been finished afterwards
@@ -51,48 +57,28 @@ paths:
           description: session id not found
 components:
   schemas:
-    SessionId:
+    ISessionId:
       type: string
       description: an unique string which identifies a session
       example: 1f9d14f1-6179-4dbd-9c53-915412622640
-    QuizzSession:
+    IQuestion:
+      type: object
+      properties:
+        id: 
+          type: string
+        answers:
+          type: array
+          items: 
+            type: string
+    IQuizzSession:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/SessionId'
+          $ref: '#/components/schemas/ISessionId'
         creationTime:
           type: string
           format: date-time
           example: '2020-05-19T12:45:32.538Z'
-    MonitorStatus:
-      type: string
-      enum:
-      - OK
-      - FAILURE
-      - UNKNOWN
-    MonitorResponse:
-      type: object
-      properties:
-        currentTime:
-          type: string
-          format: date-time
-          example: '2020-05-19T12:45:32.538Z'
-        hostname:
-          type: string
-          format: hostname
-          example: localhost
-        inetAddress:
-          type: string
-          format: ipv4
-          example: 127.0.0.1
-        statusSystem:
-          $ref: '#/components/schemas/MonitorStatus'
-        statusRedis:
-          $ref: '#/components/schemas/MonitorStatus'
-        statusOverall:
-          $ref: '#/components/schemas/MonitorStatus'
-        
-
 servers:
   - url: 'http://localhost:8000/'
     variables: {}
