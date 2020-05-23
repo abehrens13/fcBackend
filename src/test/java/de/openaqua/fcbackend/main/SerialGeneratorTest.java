@@ -78,9 +78,9 @@ class SerialGeneratorTest {
   @Test
   void testSetGetNumber() {
     SerialGenerator g = new SerialGenerator();
-    assertTrue(g.getPrefix().equals("DEF"));
-    g.setPrefix("ABC");
-    assertTrue(g.getPrefix().equals("ABC"));
+    assertTrue(g.getNumber() == SerialGenerator.DEFAULT_STARTVALUE);
+    g.setNumber(1);
+    assertTrue(g.getNumber() == 1);
   }
 
   @Test
