@@ -2,8 +2,6 @@ package de.openaqua.fcbackend.controller;
 
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,41 +12,41 @@ import org.springframework.web.bind.annotation.RestController;
 import de.openaqua.fcbackend.entities.ImportQuestion;
 import de.openaqua.fcbackend.entities.ImportQuizz;
 import de.openaqua.fcbackend.repositories.ImportQuestionsRepository;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @RestController
 @RequestMapping(path = "/questions")
 public class QuestionController {
-  private static final Logger LOG = LoggerFactory.getLogger(QuestionController.class);
 
   @Autowired
   private ImportQuestionsRepository repository;
 
   @GetMapping()
   public Optional<ImportQuizz> index() {
-    LOG.info("GET /");
+    log.info("GET /");
     return repository.getAll();
 
   }
 
   @GetMapping("/question={q}")
   public ResponseEntity<ImportQuestion> byId(@PathVariable final String q) {
-    LOG.info("GET /question={}", q);
+    log.info("GET /question={}", q);
     Optional<ImportQuestion> out = repository.findByQuestions(q);
     if (!out.isPresent()) {
       throw new NoSuchQuestionException("no resource found for question" + q);
     }
-    LOG.debug("result: {}", out.get());
+    log.debug("result: {}", out.get());
     return ResponseEntity.ok(out.get());
   }
 
   @GetMapping("/random")
   public ResponseEntity<ImportQuestion> getRandom() {
-    LOG.info("GET /getRandom");
+    log.info("GET /getRandom");
     Optional<ImportQuestion> out = repository.findRandomQuestion();
     if (!out.isPresent()) {
       throw new NoSuchQuestionException("no resource found");
     }
-    LOG.debug("result: {}", out.get());
+    log.debug("result: {}", out.get());
     return ResponseEntity.ok(out.get());
   }
 
