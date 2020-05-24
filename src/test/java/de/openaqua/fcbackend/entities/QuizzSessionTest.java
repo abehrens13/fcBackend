@@ -55,4 +55,11 @@ class QuizzSessionTest {
     assertFalse(s.toString() == null);
     assertFalse(s.toString().isEmpty());
   }
+
+  @Test
+  void testEquals() {
+    QuizzSession s = new QuizzSession();
+    QuizzSession b = new QuizzSession();
+    assertFalse(s.equals(b));
+  }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.openaqua.fcbackend.api.QuizzApi;
 import de.openaqua.fcbackend.entities.QuizzSession;
 import de.openaqua.fcbackend.model.IQuizzSession;
-import de.openaqua.fcbackend.redis.RedisRepository;
+import de.openaqua.fcbackend.redis.QuizzSessionRepository;
 import io.swagger.annotations.ApiParam;
 
 @Component
@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiParam;
 public class QuizzSessionController implements QuizzApi {
 
   @Autowired
-  private RedisRepository redisRepository;
+  private QuizzSessionRepository redisRepository;
 
   @Override
   public ResponseEntity<IQuizzSession> getSession() {

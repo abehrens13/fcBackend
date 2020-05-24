@@ -16,4 +16,8 @@ public class QuizzSession extends IQuizzSession {
     this.setCreationTime(OffsetDateTime.now(ZoneOffset.UTC));
   }
 
+  @Override
+  public boolean equals(java.lang.Object o) {
+    return super.equals(o);
+  }
 }
