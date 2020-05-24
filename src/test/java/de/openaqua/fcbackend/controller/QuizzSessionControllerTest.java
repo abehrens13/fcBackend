@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -26,6 +27,7 @@ class QuizzSessionControllerTest {
   int randomServerPort;
 
   @Test
+  @Order(1)
   public void testEnvironment() throws Exception {
     assertTrue(randomServerPort > 0);
   }
