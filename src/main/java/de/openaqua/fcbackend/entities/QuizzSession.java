@@ -14,7 +14,7 @@ public class QuizzSession extends IQuizzSession {
   public QuizzSession() {
     super();
     this.setId(UUID.randomUUID().toString());
-    this.setCreationTime(OffsetDateTime.now(ZoneOffset.UTC));
+    this.setCreationTime(OffsetDateTime.now(ZoneOffset.UTC).toString());
   }
 
   @Override

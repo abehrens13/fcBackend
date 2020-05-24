@@ -10,22 +10,27 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 class QuizzSessionTest {
 
   @Test
-  void testConstructor() {
+  void testConstructor() throws InterruptedException {
     QuizzSession s = new QuizzSession();
+    OffsetDateTime create = OffsetDateTime.parse(s.getCreationTime());
+    TimeUnit.SECONDS.sleep(2);
     OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
-    s.creationTime(now);
-    long diff = now.toEpochSecond() - s.getCreationTime().toEpochSecond(); // should be less than 2 sec
+    long diff = now.toEpochSecond() - create.toEpochSecond();
+    log.debug("diff {}", diff);
+    assertTrue(diff > 0 && diff < 5);
+
     assertNotNull(s);
     assertNotNull(s.getId());
     assertNotNull(s.getCreationTime());
     assertNotNull(s.toString());
     assertFalse(s.getId().isEmpty());
     assertTrue(s.getId().length() > 10);
-    assertTrue(diff >= 0);
-    assertTrue(diff <= 2);
   }
 
   @Test
@@ -41,12 +46,11 @@ class QuizzSessionTest {
   @Test
   void testSetGetCreationTime() throws InterruptedException {
     QuizzSession s = new QuizzSession();
-    s.setCreationTime(OffsetDateTime.now(ZoneOffset.UTC));
     TimeUnit.SECONDS.sleep(1);
-    OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
-    assertFalse(s.getCreationTime().equals(now));
-    s.setCreationTime(now);
-    assertTrue(s.getCreationTime().equals(now));
+    String nowS = OffsetDateTime.now(ZoneOffset.UTC).toString();
+    assertFalse(s.getCreationTime().equals(nowS));
+    s.setCreationTime(nowS);
+    assertTrue(s.getCreationTime().equals(nowS));
 
   }
 

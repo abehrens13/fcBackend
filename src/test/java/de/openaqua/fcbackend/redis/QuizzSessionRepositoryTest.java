@@ -1,28 +1,24 @@
 package de.openaqua.fcbackend.redis;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import de.openaqua.fcbackend.controller.QuestionController;
 import de.openaqua.fcbackend.entities.QuizzSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class QuizzSessionRepositoryTest {
-  private static final Logger LOG = LoggerFactory.getLogger(QuestionController.class);
   @LocalServerPort
   int randomServerPort;
 
@@ -44,20 +40,18 @@ class QuizzSessionRepositoryTest {
 
   @Test
   void testSave2() throws InterruptedException {
+    log.info("testSave");
+    // prepare new object
     QuizzSession a = new QuizzSession();
-    a.setCreationTime(OffsetDateTime.now(ZoneOffset.UTC));
-    LOG.debug("1: " + a.toString());
-    TimeUnit.SECONDS.sleep(2);
-    LOG.debug("2: " + a.toString());
-
     QuizzSession b = repository.save(a);
-    LOG.debug("3: " + a.toString());
-    LOG.debug("4: " + b.toString());
-    TimeUnit.SECONDS.sleep(2);
-
     QuizzSession c = repository.findById(a.getId()).get();
-    LOG.debug("5: " + c.toString());
-    assertTrue(a.getId().equals(b.getId()));
+    log.error("=========================redis forgets the time");
+    log.error("5: " + c.toString());
+    log.error("=========================redis forgets the time");
+    assertNotNull(c.getCreationTime());
+    assertEquals(a, b);
+    assertEquals(b, c);
+    repository.deleteById(a.getId());
   }
 
   @Test
@@ -65,7 +59,10 @@ class QuizzSessionRepositoryTest {
     QuizzSession a = repository.save(new QuizzSession());
     Optional<QuizzSession> b = repository.findById(a.getId());
     assertTrue(b.isPresent());
-    assertTrue(a.getId().equals(b.get().getId()));
+    if (b.isPresent()) {
+      assertEquals(a, b.get());
+    }
+
   }
 
   @Test
@@ -74,6 +71,16 @@ class QuizzSessionRepositoryTest {
     repository.save(new QuizzSession());
     long b = repository.count();
     assertTrue(b - a == 1);
+  }
+
+  @Test
+  void testDeleteAll() {
+    repository.save(new QuizzSession());
+    long a = repository.count();
+    repository.deleteAll();
+    long b = repository.count();
+    assertTrue(b < a);
+    assertTrue(b == 0);
   }
 
   @Test
