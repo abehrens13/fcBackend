@@ -16,6 +16,7 @@ class QuizzSessionTest {
   void testConstructor() {
     QuizzSession s = new QuizzSession();
     OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+    s.creationTime(now);
     long diff = now.toEpochSecond() - s.getCreationTime().toEpochSecond(); // should be less than 2 sec
     assertNotNull(s);
     assertNotNull(s.getId());
