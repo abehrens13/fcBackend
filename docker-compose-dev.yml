@@ -21,7 +21,7 @@ services:
     volumes:
     - pgdata:/var/lib/postgresql/data
     networks:
-    - sonarnet
+    - jenkinsnet
   sonarqube:
     container_name: sonarqube
     image: sonarqube:latest
@@ -39,13 +39,29 @@ services:
     - sonarqube_logs:/opt/sonarqube/logs
     - sonarqube_data:/opt/sonarqube/data
     networks:
-    - sonarnet
+    - jenkinsnet
+  jenkins:
+    container_name: jenkins
+    image: jenkinsci/blueocean
+    restart: unless-stopped
+    environment:
+    - DOCKER_TLS_CERTDIR=/certs
+    ports:
+    - 9080:8080
+    links:
+    - sonarqube    
+    networks:
+    - jenkinsnet    
+    volumes:
+    - jenkins-docker-certs:/certs/client
+    - jenkins-data:/var/jenkins_home
 networks:
-  backend: null
-  sonarnet:
+  jenkinsnet: null
 volumes:
   redis: null
   pgdata: null
   sonarqube_extensions: null
   sonarqube_logs: null
   sonarqube_data: null
+  jenkins-docker-certs: null
+  jenkins-data: null
