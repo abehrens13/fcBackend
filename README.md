@@ -27,15 +27,6 @@ mvn docker:stop
 
 
 ## Install and Usage of Sonarqube
-
- - Sonarqube has been configured for Port 9000, localhost and usage of the a postgres database sonar. Do the following steps for setup:
- - docker-compose -f docker-compose-dev.yml up
- - after the Sonarqube container stops create a database "sonar" on postgres with user postgres
- - docker-compose -f docker-compose-dev.yml down
- - docker-compose -f docker-compose-dev.yml up
- - wait some time till sonarqube has created the database tabels
- 
- after successful installation
  - mvn clean verify sonar:sonar
  - or wait till jenkins made the sonar stuff
  
