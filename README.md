@@ -1,10 +1,16 @@
 # fcBackend - FlashCard Backend
 
+## pre
+extend /etc/hosts with 
+127.0.0.1 mongo
+127.0.0.1 redis
+
+
 FlashCard game for AWS
 
 ## docker build
- - docker build -t feb18/fcBackend:latest .
- - docker build -t feb18/fcBackend:latest-dev .
+ - docker build -t feb18/fcbackend:latest .
+ - docker build -t feb18/fcbackend:latest-dev .
  - docker run --name scrumtestbackend-dev -p 8080:8080 feb18/fcBackend:latest-dev
 
 ## docker-compose build
