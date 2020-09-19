@@ -7,21 +7,6 @@ services:
       - 9000:9000
     networks:
       - sonarnet
-  jenkins:
-    container_name: jenkins
-    image: jenkinsci/blueocean
-    restart: unless-stopped
-    environment:
-      - DOCKER_TLS_CERTDIR=/certs
-    ports:
-      - 9030:8080
-    links:
-      - sonarqube
-    networks:
-      - sonarnet
-    volumes:
-      - jenkins-docker-certs:/certs/client
-      - jenkins-data:/var/jenkins_home
   swaggerui:
     container_name: swaggerui
     image: swaggerapi/swagger-editor
@@ -62,5 +47,3 @@ networks:
   backend: null
 volumes:
   redis: null
-  jenkins-docker-certs: null
-  jenkins-data: null
