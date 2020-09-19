@@ -13,17 +13,6 @@ pipeline {
 
 	stages {
 		/**=======================*/
-		stage('Show Tool Versions'){
-			steps{
-				sh 'mvn --version'
-				sh 'docker --version'
-				sh 'java -version'
-				echo "PATH = ${PATH}"
-                echo "M2_HOME = ${M2_HOME}"
-			}
-		}
-
-		/**=======================*/
 		stage('Maven Build') {
       		steps {
         		sh 'mvn -DskipTests clean package'
