@@ -1,10 +1,4 @@
 pipeline {
-	agent {
-                    docker {
-                        image 'maven:3-alpine'
-                        args '-v $HOME/.m2:/root/.m2'
-                    }
-        }
     options {
     	timeout(time: 15, unit: 'MINUTES')
     	disableConcurrentBuilds()
@@ -27,6 +21,11 @@ pipeline {
                 echo "M2_HOME = ${M2_HOME}"
 			}
 		}
+
+
+    stage('Clone sources') {
+        git url: 'https://github.com/abehrens13/fcBackend.git'
+    }
 
 		/**=======================*/
 		stage('Maven Build') {
@@ -97,7 +96,4 @@ pipeline {
 		}
 
 	}
-    tools {
-        maven 'Maven 3.6.3'
-    }
 }
