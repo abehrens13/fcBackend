@@ -22,11 +22,6 @@ pipeline {
 			}
 		}
 
-
-    stage('Clone sources') {
-        git url: 'https://github.com/abehrens13/fcBackend.git'
-    }
-
 		/**=======================*/
 		stage('Maven Build') {
       		steps {
