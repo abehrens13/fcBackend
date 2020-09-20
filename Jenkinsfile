@@ -42,12 +42,26 @@ pipeline {
 		/**=======================*/
 		//https://igorski.co/sonarqube-scans-using-jenkins-declarative-pipelines/
 		stage('SonarQube analysis') {
+		    environment {
+                SCANNER_HOME = tool 'SonarQubeScanner'
+                ORGANIZATION = "openaqua"
+                PROJECT_NAME = "fcBackend"
+            }
             steps {
-                withSonarQubeEnv(installationName: 'MySonarQubeScanner', credentialsId: 'sonar') {
-                        sh 'mvn sonar:sonar'
+                withSonarQubeEnv('MySonarQubeScanner') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.organization=$ORGANIZATION \
+                    -Dsonar.java.binaries=build/classes/java/ \
+                    -Dsonar.projectKey=$PROJECT_NAME \
+                    -Dsonar.sources=.'''
                 }
             }
 		}
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+            }
+        }
 
 
         //docker is broken. Here is a better way: https://www.edureka.co/community/55640/jenkins-docker-docker-image-jenkins-pipeline-docker-registry
