@@ -50,6 +50,7 @@ pipeline {
 		}
 
 
+        //docker is broken. Here is a better way: https://www.edureka.co/community/55640/jenkins-docker-docker-image-jenkins-pipeline-docker-registry
 		/**=======================*/
 		stage('Build Docker Image - All Branches') {
 			when { branch pattern: "dev-.*", comparator: "REGEXP"}
@@ -61,6 +62,7 @@ pipeline {
         		"""
       		}
 		}
+
 
 		/**=======================*/
 		stage('Build Docker Image - Master Branch') {
