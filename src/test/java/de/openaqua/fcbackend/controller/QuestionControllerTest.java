@@ -24,13 +24,13 @@ class QuestionControllerTest {
   private TestRestTemplate restTemplate;
 
   @Test
-  void testEnvirnonment() {
-    assertEquals(port, 0);
+  void testEnvironment() {
+    assertNotEquals(port, 0);
     assertNotNull(restTemplate);
   }
 
   @Test
-  void testbyId() {
+  void testById() {
     ImportQuestion sample = this.restTemplate.getForObject("http://localhost:" + port + "/questions/random",
         ImportQuestion.class);
     assertFalse(sample.getAnswers().isEmpty());
