@@ -31,7 +31,7 @@ class FcBackendHealthIndicatorTest {
 
   @Test
   @Order(1)
-  public void testEnvironment() throws Exception {
+  public void testEnvironment() {
     assertTrue(randomServerPort > 0);
   }
 
