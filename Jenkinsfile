@@ -42,21 +42,19 @@ pipeline {
 		/**=======================*/
 		//https://igorski.co/sonarqube-scans-using-jenkins-declarative-pipelines/
 		//sonar-scanner must be enabled in jenkins
-		//user must be defined in sonarqube
+		//user/password must be defined in sonarqube
+		//and the login musst be configured in jenkins
 		stage('SonarQube analysis') {
 		    environment {
                 SCANNER_HOME = tool 'SonarQubeScanner'
                 ORGANIZATION = "openaqua"
                 PROJECT_NAME = "fcBackend"
-                PROJECT_LOGIN = "user"
-                PROJECT_PASSWORD = "user"
             }
             steps {
                 withSonarQubeEnv('MySonarQubeScanner') {
                     sh '''$SCANNER_HOME/bin/sonar-scanner  \
                     -Dsonar.java.binaries=target/classes/ \
                     -Dsonar.projectKey=$PROJECT_NAME \
-                    -Dsonar.login=$PROJECT_LOGIN -Dsonar.password=$PROJECT_PASSWORD \
                     -Dsonar.sources=.'''
                 }
             }
