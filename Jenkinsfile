@@ -82,7 +82,7 @@ pipeline {
 			}
       		steps {
       		    script {
-                    dockerImageV = docker.build registry + "${env.VERSION}"
+                    dockerImageV = docker.build registry + ":${env.VERSION}"
                     docker.withRegistry( '', registryCredential ) {
                         dockerImageV.push()
                         sh "docker rmi $registry:${env.VERSION}"
@@ -99,8 +99,8 @@ pipeline {
       		}
       		steps {
       		    script {
-                    dockerImageV = docker.build registry + "${env.VERSION}"
-                    dockerImageL = docker.build registry + "latest"
+                    dockerImageV = docker.build registry + ":${env.VERSION}"
+                    dockerImageL = docker.build registry + ":latest"
                     docker.withRegistry( '', registryCredential ) {
                         dockerImageV.push()
                         dockerImageL.push()
