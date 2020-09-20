@@ -54,7 +54,7 @@ pipeline {
                     sh '''$SCANNER_HOME/bin/sonar-scanner  \
                     -Dsonar.java.binaries=build/classes/java/ \
                     -Dsonar.projectKey=$PROJECT_NAME \
-                    -Dsonar.login=$PROJECT_LOGIN -Dsonar.password=PROJECT_PASSWORD \
+                    -Dsonar.login=$PROJECT_LOGIN -Dsonar.password=$PROJECT_PASSWORD \
                     -Dsonar.sources=.'''
                 }
             }
