@@ -73,43 +73,5 @@ pipeline {
         //    }
         //}
 
-
-        //docker is broken. Here is a better way: https://www.edureka.co/community/55640/jenkins-docker-docker-image-jenkins-pipeline-docker-registry
-		/**=======================*/
-		//https://www.brightbox.com/blog/2018/01/22/push-builds-to-dockerhub/
-		stage('Build Docker Image - All Branches') {
-			when {
-			    branch pattern: "dev-.*", comparator: "REGEXP"
-			}
-      		steps {
-      		    script {
-                    dockerImageV = docker.build registry + "${env.VERSION}"
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImageV.push()
-                        sh "docker rmi $registry:${env.VERSION}"
-                    }
-                }
-      		}
-		}
-
-
-		/**=======================*/
-		stage('Build Docker Image - Master Branch') {
-      		when {
-        		branch 'master'  //only run these steps on the master branch
-      		}
-      		steps {
-      		    script {
-                    dockerImageV = docker.build registry + "${env.VERSION}"
-                    dockerImageL = docker.build registry + "latest"
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImageV.push()
-                        dockerImageL.push()
-                    }
-                    sh "docker rmi $registry:${env.VERSION}"
-                    sh "docker rmi $registry:latest"
-                }
-      		}
-		}
 	}
-
+}
