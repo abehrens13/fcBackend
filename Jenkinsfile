@@ -9,6 +9,10 @@ pipeline {
     	DOCKERID = "feb18"
     	IMAGE = 'fcbackend'
     	VERSION = '0.0.2-SNAPSHOT'
+        registry = "feb18/fcbackend"
+        registryCredential = 'dockerlogin'
+        dockerImage = ''
+        }
   	}
 
 	stages {
@@ -75,11 +79,12 @@ pipeline {
 		stage('Build Docker Image - All Branches') {
 			when { branch pattern: "dev-.*", comparator: "REGEXP"}
       		steps {
-        		sh """
-          			docker login
-          			docker build -t ${env.DOCKERID}/${env.IMAGE}:${env.VERSION} .
-          			docker push ${env.DOCKERID}/${env.IMAGE}:${env.VERSION}
-        		"""
+      		    script {
+                    dockerImageV = docker.build registry + "${env.VERSION}"
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImageV.push()
+                    sh "docker rmi $registry:${env.VERSION}"
+                }
       		}
 		}
 
@@ -90,13 +95,15 @@ pipeline {
         		branch 'master'  //only run these steps on the master branch
       		}
       		steps {
-        		sh """
-          			docker login
-          			docker build -t ${env.DOCKERID}/${env.IMAGE}:${env.VERSION} .
-					docker tag ${env.DOCKERID}/${env.IMAGE}:${env.VERSION} ${env.DOCKERID}/${env.IMAGE}:latest
-          			docker push ${env.DOCKERID}/${env.IMAGE}:${env.VERSION}
-          			docker push ${env.DOCKERID}/${env.IMAGE}:latest
-        		"""
+      		    script {
+                    dockerImageV = docker.build registry + "${env.VERSION}"
+                    dockerImageL = docker.build registry + "latest"
+                    docker.withRegistry( '', registryCredential ) {
+                    dockerImageV.push()
+                    dockerImageL.push()
+                    sh "docker rmi $registry:${env.VERSION}"
+                    sh "docker rmi $registry:latest"
+                }
       		}
 		}
 	}
