@@ -7,6 +7,13 @@ services:
       - 9000:9000
     networks:
       - sonarnet
+    volumes:
+      - sonar-conf:/opt/sonarqube/conf
+      - sonar-data:/opt/sonarqube/data
+      - sonar-logs:/opt/sonarqube/logs
+      - sonar-ext:/opt/sonarqube/extensions
+
+
   swaggerui:
     container_name: swaggerui
     image: swaggerapi/swagger-editor
@@ -47,3 +54,7 @@ networks:
   backend: null
 volumes:
   redis: null
+  sonar-conf: null
+  sonar-data: null
+  sonar-logs: null
+  sonar-ext: null
