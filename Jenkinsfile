@@ -41,16 +41,20 @@ pipeline {
 
 		/**=======================*/
 		//https://igorski.co/sonarqube-scans-using-jenkins-declarative-pipelines/
-		stage('SonarCloud') {
-  			environment {
-    			SCANNER_HOME = tool 'MySonarQubeScanner'
-			}
-  			steps {
-    			withSonarQubeEnv('Sonar') {
-        			sh 'mvn sonar:sonar'
-    			}
-  			}
+		stage('SonarQube analysis') {
+  			withSonarQubeEnv('MySonarQubeScanner') {
+                  sh 'mvn sonar:sonar'
+            }
 		}
+
+        stage("Quality Gate"){
+            timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+                def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+                if (qg.status != 'OK') {
+                    error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                }
+            }
+        }
 
 		/**=======================*/
 		stage('Build Docker Image - All Branches') {
