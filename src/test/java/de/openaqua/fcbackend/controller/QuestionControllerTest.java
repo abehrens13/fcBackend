@@ -1,9 +1,5 @@
 package de.openaqua.fcbackend.controller;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,21 +11,22 @@ import org.springframework.context.annotation.Import;
 import de.openaqua.fcbackend.FcBackendApplication;
 import de.openaqua.fcbackend.entities.ImportQuestion;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest(classes = FcBackendApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @Import(QuestionController.class)
 class QuestionControllerTest {
 
   @LocalServerPort
-  private int port;
+  private int port=0;
 
   @Autowired
   private TestRestTemplate restTemplate;
 
   @Test
   void testEnvirnonment() {
-    assertNotNull(port);
+    assertEquals(port, 0);
     assertNotNull(restTemplate);
-    assertTrue(port != 0);
   }
 
   @Test
