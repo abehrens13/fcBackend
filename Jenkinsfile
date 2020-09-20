@@ -46,13 +46,15 @@ pipeline {
                 SCANNER_HOME = tool 'SonarQubeScanner'
                 ORGANIZATION = "openaqua"
                 PROJECT_NAME = "fcBackend"
+                PROJECT_LOGIN = "user"
+                PROJECT_PASSWORD = "user"
             }
             steps {
                 withSonarQubeEnv('MySonarQubeScanner') {
                     sh '''$SCANNER_HOME/bin/sonar-scanner  \
                     -Dsonar.java.binaries=build/classes/java/ \
                     -Dsonar.projectKey=$PROJECT_NAME \
-                    -Dsonar.login=“user” -Dsonar.password=“user” \
+                    -Dsonar.login=$PROJECT_LOGIN -Dsonar.password=PROJECT_PASSWORD \
                     -Dsonar.sources=.'''
                 }
             }
