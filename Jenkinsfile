@@ -78,7 +78,9 @@ pipeline {
 		/**=======================*/
 		//https://www.brightbox.com/blog/2018/01/22/push-builds-to-dockerhub/
 		stage('Build Docker Image - All Branches') {
-			when { branch pattern: "dev-.*", comparator: "REGEXP"}
+			when {
+			    branch pattern: "dev-.*", comparator: "REGEXP"
+			}
       		steps {
       		    script {
                     dockerImageV = docker.build registry + "${env.VERSION}"
@@ -110,4 +112,4 @@ pipeline {
       		}
 		}
 	}
-}
+
